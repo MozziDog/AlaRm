@@ -44,7 +44,25 @@ extern void ARFeatheredPlaneMeshVisualizer_GenerateBoundaryUVs_mF756D3C1F7925A69
 extern void ARFeatheredPlaneMeshVisualizer__ctor_m9A77651BCAE58AA0B994FFF6C6B63B1CFF2729F6 (void);
 // 0x00000010 System.Void ARFeatheredPlaneMeshVisualizer::.cctor()
 extern void ARFeatheredPlaneMeshVisualizer__cctor_m56285A000EE27A1631BE9C5BCDA5C376E5D133C3 (void);
-static Il2CppMethodPointer s_methodPointers[16] = 
+// 0x00000011 System.Void Readme::.ctor()
+extern void Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6 (void);
+// 0x00000012 System.Void Readme/Section::.ctor()
+extern void Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B (void);
+// 0x00000013 System.Void Character::Start()
+extern void Character_Start_m970374CEE2508A3EFD2DAD04ABCF8DED3236DC78 (void);
+// 0x00000014 System.Void Character::Update()
+extern void Character_Update_m1218F3E69CCB4D3B6260400A1640780CA5B32035 (void);
+// 0x00000015 System.Void Character::.ctor()
+extern void Character__ctor_m9D8D6104D9CB19DAE6866ECA929FFB0F2592DD19 (void);
+// 0x00000016 System.Void UI_test::Start()
+extern void UI_test_Start_m88CB84BFC5BA2D1B568F1778FAF03AFB4AFD0BE8 (void);
+// 0x00000017 System.Void UI_test::Update()
+extern void UI_test_Update_m9AE4B2FD017D08E4A2E891F257C471C7EED067FE (void);
+// 0x00000018 System.Void UI_test::printUI(System.String)
+extern void UI_test_printUI_m0CE13C92E9B901CC4D57CF212E25509034068823 (void);
+// 0x00000019 System.Void UI_test::.ctor()
+extern void UI_test__ctor_m5594BCA892999BA00C08D6ECE1F5884BD90406C1 (void);
+static Il2CppMethodPointer s_methodPointers[25] = 
 {
 	AnchorCreator_get_AnchorPrefab_mBBAF7805E9D9F8D79408EE642D153BC76306B25A,
 	AnchorCreator_set_AnchorPrefab_m53CC9CC3022C713826B44536B48B462C8A1FACFF,
@@ -62,31 +80,49 @@ static Il2CppMethodPointer s_methodPointers[16] =
 	ARFeatheredPlaneMeshVisualizer_GenerateBoundaryUVs_mF756D3C1F7925A69CD8C7C8CCE56209AB321FEF5,
 	ARFeatheredPlaneMeshVisualizer__ctor_m9A77651BCAE58AA0B994FFF6C6B63B1CFF2729F6,
 	ARFeatheredPlaneMeshVisualizer__cctor_m56285A000EE27A1631BE9C5BCDA5C376E5D133C3,
+	Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6,
+	Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B,
+	Character_Start_m970374CEE2508A3EFD2DAD04ABCF8DED3236DC78,
+	Character_Update_m1218F3E69CCB4D3B6260400A1640780CA5B32035,
+	Character__ctor_m9D8D6104D9CB19DAE6866ECA929FFB0F2592DD19,
+	UI_test_Start_m88CB84BFC5BA2D1B568F1778FAF03AFB4AFD0BE8,
+	UI_test_Update_m9AE4B2FD017D08E4A2E891F257C471C7EED067FE,
+	UI_test_printUI_m0CE13C92E9B901CC4D57CF212E25509034068823,
+	UI_test__ctor_m5594BCA892999BA00C08D6ECE1F5884BD90406C1,
 };
-static const int32_t s_InvokerIndices[16] = 
+static const int32_t s_InvokerIndices[25] = 
 {
-	5105,
-	4141,
-	5200,
-	5200,
-	5200,
-	5200,
-	8259,
-	5146,
-	4174,
-	5200,
-	5200,
-	5200,
-	4036,
-	4141,
-	5200,
-	8259,
+	5333,
+	4326,
+	5439,
+	5439,
+	5439,
+	5439,
+	8536,
+	5375,
+	4360,
+	5439,
+	5439,
+	5439,
+	4212,
+	4326,
+	5439,
+	8536,
+	5439,
+	5439,
+	5439,
+	5439,
+	5439,
+	5439,
+	5439,
+	4326,
+	5439,
 };
 IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	16,
+	25,
 	s_methodPointers,
 	0,
 	NULL,
