@@ -7,7 +7,6 @@ using UnityEngine.InputSystem.EnhancedTouch;
 public class CharacterTouchManager : MonoBehaviour
 {
     public UI_test ui; // 목소리 나오기 전까지 테스트용 출력
-    int count = 0;
     //float minStrokeDistance = 0.3f;
     private UnityEngine.Touch theTouch;
     private float timeTouchStarted;
