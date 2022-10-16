@@ -27,7 +27,7 @@ public class LightEstimation : MonoBehaviour
     private void OnEnable()
     {
         arCameraManager.frameReceived += FrameChanged;
-        // frameReceived´Â AR Ä«¸Ş¶ó·ÎºÎÅÍ ÇÁ·¹ÀÓÀÌ ¼ö½ÅµÉ ¶§¸¶´Ù ½ÇÇàµÇ´Â ÀÌº¥Æ®
+        // frameReceivedëŠ” AR ì¹´ë©”ë¼ë¡œë¶€í„° í”„ë ˆì„ì´ ìˆ˜ì‹ ë  ë•Œë§ˆë‹¤ ì‹¤í–‰ë˜ëŠ” ì´ë²¤íŠ¸
     }
 
     private void OnDisable()
@@ -37,54 +37,54 @@ public class LightEstimation : MonoBehaviour
 
     private void FrameChanged(ARCameraFrameEventArgs args)
     {
-        // µğ¹ö±× Ãâ·Â¿ë
+        // ë””ë²„ê·¸ ì¶œë ¥ìš©
         float lightIntensity = 0f;
         float colorTemp = 0f;
         Color colorCorrection = new Color();
         Vector3 mainLightDirection = Vector3.zero;
         float averageMainLightBrightness = 0f;
 
-        // lightEstimationÀº nullableÀÌ±â ¶§¹®¿¡ HasValue·Î Ã¼Å© ÇÊ¿ä
-        // Æò±Õ ¹à±â
+        // lightEstimationì€ nullableì´ê¸° ë•Œë¬¸ì— HasValueë¡œ ì²´í¬ í•„ìš”
+        // í‰ê·  ë°ê¸°
         if (args.lightEstimation.averageBrightness.HasValue)
         {
             light.intensity = args.lightEstimation.averageBrightness.Value;
             lightIntensity = args.lightEstimation.averageBrightness.Value;
         }
 
-        // Æò±Õ »ö¿Âµµ
+        // í‰ê·  ìƒ‰ì˜¨ë„
         if (args.lightEstimation.averageColorTemperature.HasValue)
         {
             light.colorTemperature = args.lightEstimation.averageColorTemperature.Value;
         }
 
-        // »ö»óÁ¤º¸ (RGBA)
+        // ìƒ‰ìƒì •ë³´ (RGBA)
         if (args.lightEstimation.colorCorrection.HasValue)
         {
             light.color = args.lightEstimation.colorCorrection.Value;
             colorCorrection = args.lightEstimation.colorCorrection.Value;
         }
 
-        // Àå¸éÀÇ ÁÖ¿ä ±¤¿ø ¹æÇâ
+        // ì¥ë©´ì˜ ì£¼ìš” ê´‘ì› ë°©í–¥
         if (args.lightEstimation.mainLightDirection.HasValue)
         {
             light.transform.rotation = Quaternion.LookRotation(args.lightEstimation.mainLightDirection.Value);
         }
 
-        // ÁÖ ±¤¿ø ÃßÁ¤Ä¡ (´ÜÀ§ : ·ç¸à)
+        // ì£¼ ê´‘ì› ì¶”ì •ì¹˜ (ë‹¨ìœ„ : ë£¨ë©˜)
         if (args.lightEstimation.mainLightIntensityLumens.HasValue)
         {
             light.intensity = args.lightEstimation.averageMainLightBrightness.Value;
         }
 
-        // ·¹º§ 2¿¡¼­ ±¸Çü °íÁ¶ÆÄ¸¦ »ç¿ëÇØ ÁÖº¯ Àå¸é Á¶¸í ÃßÁ¤
+        // ë ˆë²¨ 2ì—ì„œ êµ¬í˜• ê³ ì¡°íŒŒë¥¼ ì‚¬ìš©í•´ ì£¼ë³€ ì¥ë©´ ì¡°ëª… ì¶”ì •
         if (args.lightEstimation.ambientSphericalHarmonics.HasValue)
         {
             RenderSettings.ambientMode = AmbientMode.Skybox;
             RenderSettings.ambientProbe = args.lightEstimation.ambientSphericalHarmonics.Value;
         }
 
-        // µğ¹ö±× Ãâ·Â
+        // ë””ë²„ê·¸ ì¶œë ¥
         debugOut.text = $"lightIntensity: {lightIntensity}\nTemp:{colorTemp}\ncolor:{colorCorrection}\nmainLightDir:{mainLightDirection}\nmainLightBri:{averageMainLightBrightness}";
         
     }

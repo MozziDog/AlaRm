@@ -1,4 +1,4 @@
-﻿using QuantumTek.QuantumUI;
+using QuantumTek.QuantumUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;

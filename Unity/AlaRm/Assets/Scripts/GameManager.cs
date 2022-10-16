@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour
 {
     bool isAlarmMode = false;
 
-    // ¾Èµå·ÎÀÌµå¿ÍÀÇ Åë½Å¿ë ÇÔ¼ö
+    // ì•ˆë“œë¡œì´ë“œì™€ì˜ í†µì‹ ìš© í•¨ìˆ˜
     void SetUnityMode(bool value)
     {
         isAlarmMode = value;
     }
 
-    // ÀÌ Å¸ÀÌ¹Ö¿¡ ¾Èµå·ÎÀÌµå¿Í ¸Ş½ÃÁö ±³È¯ÀÌ ¹ß»ıÇÔ.
+    // ì´ íƒ€ì´ë°ì— ì•ˆë“œë¡œì´ë“œì™€ ë©”ì‹œì§€ êµí™˜ì´ ë°œìƒí•¨.
     void Awake()
     {
 
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync("MainScene");
         operation.allowSceneActivation = false;
-        yield return new WaitForSeconds(1.5f);  // ¾Û ºÎÆÃ ¿¬Ãâ ½Ã°£ ÃÖ¼Ò 1.5ÃÊ
+        yield return new WaitForSeconds(1.5f);  // ì•± ë¶€íŒ… ì—°ì¶œ ì‹œê°„ ìµœì†Œ 1.5ì´ˆ
         while(operation.progress < 0.9f)
         {
             Debug.Log(string.Format("loading Main scene : {0}%", operation.progress));

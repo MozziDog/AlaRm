@@ -6,20 +6,20 @@ using UnityEngine.InputSystem.EnhancedTouch;
 
 public class CharacterTouchManager : MonoBehaviour
 {
-    public UI_test ui; // ¸ñ¼Ò¸® ³ª¿À±â Àü±îÁö Å×½ºÆ®¿ë Ãâ·Â
+    public UI_test ui; // ëª©ì†Œë¦¬ ë‚˜ì˜¤ê¸° ì „ê¹Œì§€ í…ŒìŠ¤íŠ¸ìš© ì¶œë ¥
     //float minStrokeDistance = 0.3f;
     private UnityEngine.Touch theTouch;
     private float timeTouchStarted;
-    private float timeTouchEnded;   // ÅÍÄ¡ Á¾·á ÈÄ 0.5ÃÊ±îÁö µğ¹ö±× ¸Ş½ÃÁö Ãâ·Â¿ë
-    private float clickTimeLimit = 0.3f; // ÀÌ ÀÌ»ó ÅÍÄ¡ Áö¼ÓµÇ¸é Å¬¸¯ÀÌ ¾Æ´Ï¶ó È¦µå·Î ÆÇÁ¤
-    private float displayTime = 0.5f; // µğ¹ö±ë¿ë
+    private float timeTouchEnded;   // í„°ì¹˜ ì¢…ë£Œ í›„ 0.5ì´ˆê¹Œì§€ ë””ë²„ê·¸ ë©”ì‹œì§€ ì¶œë ¥ìš©
+    private float clickTimeLimit = 0.3f; // ì´ ì´ìƒ í„°ì¹˜ ì§€ì†ë˜ë©´ í´ë¦­ì´ ì•„ë‹ˆë¼ í™€ë“œë¡œ íŒì •
+    private float displayTime = 0.5f; // ë””ë²„ê¹…ìš©
     private bool touchedAtChara = false;
     //Vector2 screenTouchStartPoint;
 
     // Start is called before the first frame update
     void Start()
     {
-        TouchSimulation.Enable();   // ¸¶¿ì½º·Î ÅÍÄ¡ ½Ã¹Ä·¹ÀÌ¼Ç È°¼ºÈ­
+        TouchSimulation.Enable();   // ë§ˆìš°ìŠ¤ë¡œ í„°ì¹˜ ì‹œë®¬ë ˆì´ì…˜ í™œì„±í™”
     }
 
     // Update is called once per frame
@@ -45,7 +45,7 @@ public class CharacterTouchManager : MonoBehaviour
                 if (theTouch.phase == UnityEngine.TouchPhase.Ended)
                 {
                     touchedAtChara = false;
-                    if (Time.time - timeTouchStarted < clickTimeLimit) // 0.5ÃÊ°£ µğ¹ö±× ¸Ş½ÃÁö Ãâ·Â
+                    if (Time.time - timeTouchStarted < clickTimeLimit) // 0.5ì´ˆê°„ ë””ë²„ê·¸ ë©”ì‹œì§€ ì¶œë ¥
                     {
                         ui.printUI("click");
                     }
@@ -54,7 +54,7 @@ public class CharacterTouchManager : MonoBehaviour
                         ui.printUI("touch ended");
                     }
                 }
-                else if (Time.time - timeTouchEnded > displayTime) // µğ¹ö±× ¸Ş½ÃÁö ÇÑ ¹ø Ãâ·ÂµÇ¸é 0.5ÃÊ°£ º¯°æ x
+                else if (Time.time - timeTouchEnded > displayTime) // ë””ë²„ê·¸ ë©”ì‹œì§€ í•œ ë²ˆ ì¶œë ¥ë˜ë©´ 0.5ì´ˆê°„ ë³€ê²½ x
                 {
                     ui.printUI(theTouch.phase.ToString());
                     switch(theTouch.phase)
