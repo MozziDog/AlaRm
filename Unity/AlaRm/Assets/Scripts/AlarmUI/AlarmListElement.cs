@@ -1,4 +1,5 @@
-﻿using System;
+using QuantumTek.QuantumUI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -83,8 +84,8 @@ public class AlarmListElement : MonoBehaviour
 
     public void OnClickAlarmListElement()
     {
-        // TODO: 알람 세부 정보 창 띄우는 코드 만들기
-        Debug.Log("open detail window");
+        var alarmDetailWindow = GameObject.FindGameObjectWithTag("AlarmDetailWindow")?.GetComponent<AlarmDetailWindow>();
+        alarmDetailWindow.OpenAlarmDetailWindow(alarmData);
     }
 
     public void OnToggleValueChanged(Toggle change)

@@ -1,4 +1,4 @@
-﻿using QuantumTek.QuantumUI;
+using QuantumTek.QuantumUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class AlarmListWindow : MonoBehaviour
 {
+    UIWindowManager windowManager;
+
     [SerializeField]
     GameObject listElementPrefab;
     [SerializeField][Tooltip("list Element들을 묶어줄 부모 오브젝트의 트랜스폼")]
@@ -13,6 +15,9 @@ public class AlarmListWindow : MonoBehaviour
 
     private void Start()
     {
+        if(windowManager == null)
+            windowManager = GetComponentInParent<UIWindowManager>();
+
         // TODO: 테스트 제거
         var test = new AlarmData();
         test.active = true;
@@ -31,15 +36,13 @@ public class AlarmListWindow : MonoBehaviour
 
     public void OpenAlarmListWindow()
     {
-        gameObject.GetComponent<QUI_Window>().SetActive(true);
-        // TODO: 여기에 알람 창 열기 애니메이션 효과 적용
         UpdateAlarmWindow();
+        windowManager.OpenWindow(gameObject);
     }
 
     public void CloseAlarmListWindow()
     {
-        // TODO: 여기에 알람 창 열기 애니메이션 효과 적용
-        gameObject.GetComponent<QUI_Window>().SetActive(false);
+        windowManager.CloseWindow(gameObject);
     }
 
     public void UpdateAlarmWindow()
@@ -54,6 +57,7 @@ public class AlarmListWindow : MonoBehaviour
         Debug.Log("자바와 통신하는 부분");
         return null;
     }
+
     void UpdateAlarmList(AlarmData[] alarmDatas)
     {
         if (alarmDatas != null)

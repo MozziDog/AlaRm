@@ -4,13 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Claims;
 using TMPro;
+using Unity.Tutorials.Core.Editor;
 using Unity.VisualScripting;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AlarmDetailWindow : MonoBehaviour
 {
+    UIWindowManager windowManager;
+
     [SerializeField]
     TMP_Text text_ampm;
     [SerializeField]
@@ -35,9 +37,13 @@ public class AlarmDetailWindow : MonoBehaviour
 
     private void Start()
     {
+        /*
         AlarmData testData = new();
         testData.repeatDayInWeek = new bool[] { true, true, false, false, false, true, false};
         OpenAlarmDetailWindow(testData);
+        */
+        if(windowManager == null)
+            windowManager = GetComponentInParent<UIWindowManager>();
     }
 
     public void OpenAlarmDetailWindow(AlarmData alarm)
@@ -45,8 +51,7 @@ public class AlarmDetailWindow : MonoBehaviour
         currentAlarmData = alarm;
         GetUIColorData();
         InitializeWindow();
-        gameObject.SetActive(true);
-        // TODO: 여기에 알람상세 창 열기 연출 효과 만들기
+        windowManager.OpenWindow(gameObject);
     }
 
     void GetUIColorData()
@@ -267,14 +272,14 @@ public class AlarmDetailWindow : MonoBehaviour
     public void OnClickExitButton()
     {
         // TODO: 여기에 창 닫기 연출 만들기
-        gameObject.GetComponent<QUI_Window>().SetActive(false);
+        windowManager.CloseWindow(gameObject);
     }
 
     public void OnClickSubmitButton()
     {
         // TODO: 여기에 자바랑 통신하는 코드 넣기
         // TODO: 여기에 창 닫기 연출 만들기
-        gameObject.GetComponent<QUI_Window>().SetActive(false);
+        windowManager.CloseWindow(gameObject);
         // TODO: 여기에 X시 XX분 후에 알람이 울립니다 메시지 띄우는 코드 넣기
     }
 }
