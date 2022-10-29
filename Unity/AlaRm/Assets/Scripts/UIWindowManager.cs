@@ -6,13 +6,50 @@ using UnityEngine;
 // 윈도우를 스택으로 관리하지 않으면 뒤로가기 눌렀을 때 적절하게 반응하기 어려울 듯.
 public class UIWindowManager : MonoBehaviour
 {
+    // push와 pop을 통해 관리하는 UI 윈도우들
     Stack<QUI_Window> windowStack;
     [SerializeField]
-    List<QUI_Window> windowList;
+    List<QUI_Window> windowList; // 디버그용
+
+    // push와 pop을 통해 관리하지 않는 UI 윈도우들
+    [SerializeField]
+    List<QUI_Window> defaultUI;
+
+    [SerializeField]
+    List<QUI_Window> alarmSequenceUI;
 
     private void Start()
     {
-        windowStack = new Stack<QUI_Window>();
+        if(windowStack == null)
+            windowStack = new Stack<QUI_Window>();
+        SetUIMode(GameManager.instance.appMode);
+    }
+
+    public void SetUIMode(Situation appMode)
+    {
+        Debug.Log("appmode: " + appMode);
+        if (appMode == Situation.NormalSituation)
+        {
+            // value가 true이면 alarmMode
+            foreach (QUI_Window window in defaultUI)
+            {
+                window.startActive = true;
+                window.SetActive(true); ;
+            }
+            foreach (QUI_Window window in alarmSequenceUI)
+            {
+                window.startActive = false;
+                window.SetActive(false);
+            }
+        }
+        else 
+        {
+            // value가 true이면 alarmMode
+            foreach (QUI_Window window in defaultUI)
+                window.SetActive(false);
+            foreach (QUI_Window window in alarmSequenceUI)
+                window.SetActive(true);
+        }
     }
 
     public void OpenWindow(QUI_Window window)
@@ -74,7 +111,7 @@ public class UIWindowManager : MonoBehaviour
     
     public void CloseAllWindow()
     {
-        if(windowStack.Count == 0)
+        if (windowStack.Count == 0)
         {
             Debug.LogWarning("CloseAllWindow : UI 스택이 비어있음");
             return;
@@ -91,4 +128,5 @@ public class UIWindowManager : MonoBehaviour
     {
         windowList = new List<QUI_Window>(windowStack); 
     }
+
 }

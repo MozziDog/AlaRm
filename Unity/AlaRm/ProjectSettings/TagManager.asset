@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Character
   - AlarmDetailWindow
+  - UICanvas
   layers:
   - Default
   - TransparentFX
