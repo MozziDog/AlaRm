@@ -1672,6 +1672,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OpenAlarmList Button
       objectReference: {fileID: 0}
+    - target: {fileID: 2814980710607695540, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2814980710607695541, guid: 8de8f6c5f34274e569ac1bd4d57c3c70,
         type: 3}
       propertyPath: m_Pivot.x
@@ -6698,14 +6703,15 @@ MonoBehaviour:
   text_hour: {fileID: 1726399655}
   text_min: {fileID: 1863799726}
   dropdown_dialogueType: {fileID: 4302711238996104495}
-  go_repeatDays:
-  - {fileID: 2814980711582243377}
-  - {fileID: 2814980711586767361}
-  - {fileID: 2814980711203195959}
-  - {fileID: 2814980711060164689}
-  - {fileID: 2814980711374843043}
-  - {fileID: 2814980711686391965}
-  - {fileID: 2814980710571045228}
+  text_repeatDaysInfo: {fileID: 7294531657940467926}
+  toggle_repeatDays:
+  - {fileID: 5861496804975086059}
+  - {fileID: 5861496804972671451}
+  - {fileID: 5861496804680982509}
+  - {fileID: 5861496804555506571}
+  - {fileID: 5861496805314658169}
+  - {fileID: 5861496805139405639}
+  - {fileID: 5861496803973063352}
   text_alarmTitle: {fileID: 4731533634782785432}
 --- !u!224 &3365883941100240128
 RectTransform:

@@ -1,11 +1,7 @@
-using QuantumTek.QuantumUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Claims;
 using TMPro;
-using Unity.Tutorials.Core.Editor;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +18,9 @@ public class AlarmDetailWindow : MonoBehaviour
     [SerializeField]
     TMP_Dropdown dropdown_dialogueType;
     [SerializeField]
-    GameObject[] go_repeatDays;
+    TMP_Text text_repeatDaysInfo;
+    [SerializeField]
+    Toggle[] toggle_repeatDays;
     [SerializeField]
     TMP_InputField text_alarmTitle;
     // TODO: 스누즈 정보 관리 기능 추가
@@ -34,6 +32,8 @@ public class AlarmDetailWindow : MonoBehaviour
     Color color_highlightBackground;
 
     AlarmData currentAlarmData;
+
+    readonly string[] daysinWeekString = { "월", "화", "수", "목", "금", "토", "일"};
 
     private void Start()
     {
@@ -70,10 +70,11 @@ public class AlarmDetailWindow : MonoBehaviour
         dropdown_dialogueType.value = 0;
         for (var i = 0; i < 7; i++)
         {
-            go_repeatDays[i].GetComponent<Toggle>().isOn = currentAlarmData.repeatDayInWeek[i];
+            toggle_repeatDays[i].isOn = currentAlarmData.repeatDayInWeek[i];
         }
         text_alarmTitle.text = currentAlarmData.alarmTitle;
         // TODO: 여기에 스누즈 정보 표시 기능 추가
+        UpdateRepeatDayText();
         UpdateToggleColor();
         // TODO: 여기에 컬러 테마 변경 기능 삽입
     }
@@ -88,11 +89,29 @@ public class AlarmDetailWindow : MonoBehaviour
         Debug.Log(string.Format("바뀐 시간: {0}", currentAlarmData.time));
     }
 
+    private void UpdateRepeatDayText()
+    {
+        Debug.Log("Update Repeat Day text");
+        bool everyDay = true;
+        string text = "매주 ";
+        for (int i = 0; i < 7; i++)
+        {
+            if (toggle_repeatDays[i].isOn)
+                text += daysinWeekString[i] + " ";
+            else
+                everyDay = false;
+        }
+        if (everyDay)
+            text = "매일 반복";
+        else
+            text += "반복";
+        text_repeatDaysInfo.text = text;
+    }
+
     void UpdateToggleColor()
     {
-        foreach(var toggleObejct in go_repeatDays)
+        foreach(var toggle in toggle_repeatDays)
         {
-            var toggle = toggleObejct.GetComponent<Toggle>();
             ColorBlock colorOptions = toggle.colors;
             if (toggle.isOn)
             {
@@ -242,7 +261,7 @@ public class AlarmDetailWindow : MonoBehaviour
         int toggleIndex = -1;
         for(int i=0; i<7; i++)
         {
-            if (go_repeatDays[i] == input.gameObject)
+            if (toggle_repeatDays[i] == input)
             {
                 toggleIndex = i;
                 break;
@@ -260,6 +279,7 @@ public class AlarmDetailWindow : MonoBehaviour
             Debug.Assert(false, "현재 알람 정보가 존재하지 않습니다!");
         }
         UpdateToggleColor();
+        UpdateRepeatDayText();
     }
 
 

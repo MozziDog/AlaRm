@@ -1,7 +1,6 @@
 using QuantumTek.QuantumUI;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Search;
 using UnityEngine;
 
 // 윈도우를 스택으로 관리하지 않으면 뒤로가기 눌렀을 때 적절하게 반응하기 어려울 듯.
