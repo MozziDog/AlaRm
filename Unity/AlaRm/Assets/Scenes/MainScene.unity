@@ -4570,6 +4570,37 @@ MonoBehaviour:
   animator: {fileID: 1762363517}
   audioSource: {fileID: 1762363516}
   alarmInteractionTimeLimit: 10
+  audioClips:
+  - Key: wakeUp
+    Value: {fileID: 8300000, guid: 0ef223a7a155bcb4b898caded142570a, type: 3}
+  - Key: wakeUp
+    Value: {fileID: 8300000, guid: 2be0f8ca6cdcf5544bc4cefc784afded, type: 3}
+  - Key: wakeUp
+    Value: {fileID: 8300000, guid: a03ccf09b817ebd40a196719a6105c32, type: 3}
+  - Key: wakeUpCheck
+    Value: {fileID: 8300000, guid: ce937425a969fc74a880cd7b0a4a23b1, type: 3}
+  - Key: 
+    Value: {fileID: 8300000, guid: 278a90fff51f7954e9991db12062d03c, type: 3}
+  - Key: alarmInteraction0
+    Value: {fileID: 8300000, guid: 374bd58b1de3a4649b7d1f3a4fb156c6, type: 3}
+  - Key: alarmInteraction1
+    Value: {fileID: 8300000, guid: 985762e3bae802a46a11871e3326de17, type: 3}
+  - Key: alarmInteraction2
+    Value: {fileID: 8300000, guid: 400229d78ef5ca842b268c76e8bc4467, type: 3}
+  - Key: 
+    Value: {fileID: 8300000, guid: 506a8322a51561b49a34a4d5fe481b21, type: 3}
+  - Key: 
+    Value: {fileID: 8300000, guid: a49c586e5b8a5f4468059cc2c5f9981a, type: 3}
+  - Key: 
+    Value: {fileID: 8300000, guid: 06ed0bfa6bbcaa649917f6c40d95a147, type: 3}
+  - Key: 
+    Value: {fileID: 8300000, guid: bbcb18b9dc12994498b527c4ebd54e1d, type: 3}
+  - Key: haveaNiceDay
+    Value: {fileID: 8300000, guid: ac1ae99f59b9bd044aa192c55cdc4a47, type: 3}
+  - Key: 
+    Value: {fileID: 8300000, guid: 5e04c16fc5261914c9245d6477e2cf44, type: 3}
+  - Key: 
+    Value: {fileID: 8300000, guid: 6f8b8bb24ff21584c91a3dcf352b1e78, type: 3}
 --- !u!1 &1855938707
 GameObject:
   m_ObjectHideFlags: 0
