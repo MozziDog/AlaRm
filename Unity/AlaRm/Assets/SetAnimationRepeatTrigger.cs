@@ -14,7 +14,12 @@ public class SetAnimationRepeatTrigger : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (stateInfo.normalizedTime >= 1f)
-            animator.gameObject.GetComponent<Character>().SetAnimationRepeatTrigger(); // random 값 설정 때문에 Character 호출 필요
+        {
+            //animator.gameObject.GetComponent<Character>().SetAnimationRepeatTrigger();
+            //animator.gameObject.GetComponent<Character>().SetAnimationRandomInt();
+            animator.SetTrigger("repeat");
+            animator.SetInteger("random", Random.Range(0, 2));
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

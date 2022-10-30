@@ -18,7 +18,7 @@ public class Character : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
     [SerializeField] protected AudioSource audioSource;
-    [SerializeField] protected float alarmInteractionTimeLimit = 10f;
+    [SerializeField] protected float backToSleepTimeLimit = 10f;
     [SerializeField] protected List<KeyValuePair<string, AudioClip>> audioClips;
 
     protected int alarmInteractionCount = 3;
@@ -40,6 +40,7 @@ public class Character : MonoBehaviour
             StartCoroutine(AlarmSequence());
         }
     }
+
     IEnumerator AlarmSequence()
     {
         status = CharacterStatus.PrepareToWakingUp;
@@ -53,9 +54,8 @@ public class Character : MonoBehaviour
                     if (status != CharacterStatus.WakingUp)
                     {
                         status = CharacterStatus.WakingUp;
-                        SetRandomAnimationTrigger("wakeUp", 3);
+                        SetAnimationTrigger("wakeUp");
                     }
-
                     if (Input.touchCount > 0) // 터치 입력이 있으면 기상미션으로 이행
                     {
                         status = CharacterStatus.AlarmInteraction;
@@ -68,11 +68,12 @@ public class Character : MonoBehaviour
                     }
                 }
             }
-            if (status == CharacterStatus.AlarmInteraction)
+            else if (status == CharacterStatus.AlarmInteraction)
             {
                 // 타이머 설정
                 status = CharacterStatus.AlarmInteraction;
-                float interactionStartTime = Time.time;
+                float lastTouchStartTime = Time.time;
+                CharacterTouchManager touchManager = gameObject.GetComponent<CharacterTouchManager>();
 
                 // 기상 미션 제시
                 Coroutine interactionCoroutine = null;
@@ -87,9 +88,14 @@ public class Character : MonoBehaviour
                     {
                         break;
                     }
-                    // 사용자가 알람 인터렉션을 n초 이내에 끝내지 못한 경우.
-                    else if (Time.time - interactionStartTime > alarmInteractionTimeLimit)
+                    if (touchManager.touchPhase == TouchPhase.Began)
                     {
+                        lastTouchStartTime = Time.time;
+                    }
+                    // 사용자가 다시 잠든 경우
+                    if (Time.time - lastTouchStartTime > backToSleepTimeLimit)
+                    {
+                        status = CharacterStatus.PrepareToWakingUp;
                         StopCoroutine(interactionCoroutine);
                         break;
                     }
@@ -97,7 +103,10 @@ public class Character : MonoBehaviour
                         yield return null;
                 }
             }
-
+            else
+            {
+                yield return null;  // 무한 루프로 인한 freeze 방지용
+            }
             if (alarmInteractionClear) break;
         }
 
@@ -152,7 +161,11 @@ public class Character : MonoBehaviour
     public void SetAnimationRepeatTrigger()
     {
         animator.SetTrigger("repeat");
-        animator.SetInteger("random0_2", Random.Range(0, 2));
+    }
+
+    public void SetAnimationRandomInt()
+    {
+        animator.SetInteger("random", Random.Range(0, 2));
     }
 
     // 사운드는 스크립트 상에서 직접 호출하지 말고 애니메이션클립에서 호출하도록 할 것.

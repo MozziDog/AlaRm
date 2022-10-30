@@ -13,7 +13,7 @@ public class Character00 : Character
     {
         Debug.Log("started AlarmInteraction #0");
         animator.SetTrigger("alarmInteraction0");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
         alarmInteractionClear = true; // 이 플래그가 서면 좋은하루 보내세요 하고 끝남.
     }
 
