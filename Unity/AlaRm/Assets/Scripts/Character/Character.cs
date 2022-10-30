@@ -18,12 +18,12 @@ public class Character : MonoBehaviour
 {
     [SerializeField] protected Animator animator;
     [SerializeField] protected AudioSource audioSource;
+
     [SerializeField] protected float backToSleepTimeLimit = 10f;
     [SerializeField] protected List<KeyValuePair<string, AudioClip>> audioClips;
 
-    protected int alarmInteractionCount = 3;
-
-    public CharacterStatus status { get; private set; }
+    protected int alarmInteractionCount;
+    public CharacterStatus status { get; protected set; }
     protected bool alarmInteractionClear = false;
 
     void Start()
@@ -95,6 +95,7 @@ public class Character : MonoBehaviour
                     // 사용자가 다시 잠든 경우
                     if (Time.time - lastTouchStartTime > backToSleepTimeLimit)
                     {
+                        ClearProps();
                         status = CharacterStatus.PrepareToWakingUp;
                         StopCoroutine(interactionCoroutine);
                         break;
@@ -107,7 +108,11 @@ public class Character : MonoBehaviour
             {
                 yield return null;  // 무한 루프로 인한 freeze 방지용
             }
-            if (alarmInteractionClear) break;
+            if (alarmInteractionClear)
+            {
+                ClearProps();
+                break;
+            }
         }
 
         // 기상 미션 클리어
@@ -146,6 +151,16 @@ public class Character : MonoBehaviour
     {
         animator.SetTrigger("greeting");
         Debug.Log("좋은 하루 되세요!");
+    }
+
+    protected void SpawnProp(GameObject prefab, Vector3 position, Quaternion rotation)
+    {
+        Prop.SpawnProps(prefab, position, rotation);
+    }
+
+    protected virtual void ClearProps()
+    {
+        Prop.ClearAllProps();
     }
 
     public void SetAnimationTrigger(string triggerName)

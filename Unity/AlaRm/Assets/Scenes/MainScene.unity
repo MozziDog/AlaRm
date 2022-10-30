@@ -4602,6 +4602,8 @@ MonoBehaviour:
     Value: {fileID: 8300000, guid: 5e04c16fc5261914c9245d6477e2cf44, type: 3}
   - Key: 
     Value: {fileID: 8300000, guid: 6f8b8bb24ff21584c91a3dcf352b1e78, type: 3}
+  BubblePrefab: {fileID: 4959029760318469560, guid: d6aae546869659641a8f46c4f5d8cfd3,
+    type: 3}
 --- !u!1 &1855938707
 GameObject:
   m_ObjectHideFlags: 0
