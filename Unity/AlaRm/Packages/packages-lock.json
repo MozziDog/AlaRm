@@ -314,12 +314,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "dev.comradevanti.wait-for-anim": {
-      "version": "file:C:/Users/xogus/Desktop/UnityWaitForAnim-main",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
