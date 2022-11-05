@@ -20,7 +20,7 @@ public class Character : MonoBehaviour
     [SerializeField] protected AudioSource audioSource;
 
     [SerializeField] protected float backToSleepTimeLimit = 10f;
-    [SerializeField] protected List<KeyValuePair<string, AudioClip>> audioClips;
+    [SerializeField] protected List<SerializablePair<string, AudioClip>> audioClips;
 
     protected int alarmInteractionCount;
     public CharacterStatus status { get; protected set; }
@@ -73,7 +73,7 @@ public class Character : MonoBehaviour
                 // 타이머 설정
                 status = CharacterStatus.AlarmInteraction;
                 float lastTouchStartTime = Time.time;
-                CharacterTouchManager touchManager = gameObject.GetComponent<CharacterTouchManager>();
+                CharacterTouchManager touchManager = gameObject.GetComponentInParent<CharacterTouchManager>();
 
                 // 기상 미션 제시
                 Coroutine interactionCoroutine = null;
@@ -195,7 +195,7 @@ public class Character : MonoBehaviour
 
     public virtual void PlayRandomSound(string clipCategory)
     {
-        List<KeyValuePair<string, AudioClip>> clips = audioClips.FindAll((el) => el.Key == clipCategory);
+        List<SerializablePair<string, AudioClip>> clips = audioClips.FindAll((el) => el.Key == clipCategory);
         PlaySound(clips[Random.Range(0, clips.Count)].Value);
     }
 }
