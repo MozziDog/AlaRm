@@ -15,7 +15,10 @@ public enum Situation
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    [SerializeField] // 개발 완료되면 readonly로 수정할 것. 
+
+    [SerializeField] List<GameObject> NoDestroyList = new List<GameObject>();
+
+    [SerializeField] // TODO: 개발 완료되면 readonly로 수정할 것. 
     public Situation appMode = Situation.AlarmSituation;
 
     [SerializeField] GameObject characterToSpawn; // 개발용. 일단 임시로 스폰할 캐릭터를 인스펙터에서 명시
@@ -36,8 +39,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.DontDestroyOnLoad(this.gameObject);
         instance = this;
+
+        DontDestroyOnLoad(gameObject);
+        foreach(var obj in NoDestroyList)
+            DontDestroyOnLoad(obj);
+
         StartCoroutine(startMainScene());
     }
 
