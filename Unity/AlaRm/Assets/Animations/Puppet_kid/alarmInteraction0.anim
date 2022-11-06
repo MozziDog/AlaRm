@@ -169,7 +169,7 @@ AnimationClip:
   m_Events:
   - time: 0
     functionName: PlayRandomSound
-    data: alarmInteraction0
+    data: alarmInteraction2
     objectReferenceParameter: {fileID: 8300000, guid: 400229d78ef5ca842b268c76e8bc4467,
       type: 3}
     floatParameter: 0
