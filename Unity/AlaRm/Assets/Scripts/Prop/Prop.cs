@@ -10,11 +10,11 @@ public class Prop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        col = gameObject.GetComponent<SphereCollider>();
+        col = gameObject.GetComponent<Collider>();
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (Input.touchCount > 0)
         {

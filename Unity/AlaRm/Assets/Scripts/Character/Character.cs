@@ -16,8 +16,18 @@ public enum CharacterStatus
 
 public class Character : MonoBehaviour
 {
+    // 개발용
+    [Header ("Debug")]
+    public bool DebugMode = false;
+    public int Debug_AlarmInteraction = 0;
+
+    [Space(10f)]
+    // 개발용
+
+    [Header("Components")]
     [SerializeField] protected Animator animator;
     [SerializeField] protected AudioSource audioSource;
+    [Space(10f)]
 
     [SerializeField] protected float backToSleepTimeLimit = 10f;
     [SerializeField] protected List<SerializablePair<string, AudioClip>> audioClips;
@@ -125,6 +135,9 @@ public class Character : MonoBehaviour
 
     string SelectAlarmInteraction()
     {
+        if (DebugMode)
+            return "AlarmInteraction" + Debug_AlarmInteraction;
+
         int index = Random.Range(0, alarmInteractionCount);
         return "AlarmInteraction" + index;
     }
