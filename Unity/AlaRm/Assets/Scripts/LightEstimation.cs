@@ -85,7 +85,8 @@ public class LightEstimation : MonoBehaviour
         }
 
         // 디버그 출력
-        debugOut.text = $"lightIntensity: {lightIntensity}\nTemp:{colorTemp}\ncolor:{colorCorrection}\nmainLightDir:{mainLightDirection}\nmainLightBri:{averageMainLightBrightness}";
+        if(debugOut != null)
+            debugOut.text = $"lightIntensity: {lightIntensity}\nTemp:{colorTemp}\ncolor:{colorCorrection}\nmainLightDir:{mainLightDirection}\nmainLightBri:{averageMainLightBrightness}";
         
     }
 }

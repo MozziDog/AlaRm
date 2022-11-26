@@ -50,10 +50,54 @@ public class Character00 : Character
         alarmInteractionClear = true; // 이 플래그가 서면 좋은하루 보내세요 하고 끝남.
     }
 
+    // Alarm Interaction #2 끄덕끄덕
     protected override IEnumerator AlarmInteraction2()
     {
+        int tiltCount = 0, reqCount = 3;
+        float reqRotationSpeed = 4; // TODO: 이 값 실험으로 적정값 찾아서 고쳐야 함.
+        float insensitivityTime = 0.5f;    // 핸드폰 흔들때 너무 빠르게 카운트 올라가는 거 방지용
+        float lastCountTime = Time.time;
+
+        // 실험용
+        float maxRotationSpeed = 0;
+
         Debug.Log("started AlarmInteraction #2");
-        yield return 0;
-        // alarmInteractionClear = true;
+        Input.gyro.enabled = true;  // 자이로 센서 활성화
+
+        animator.SetTrigger("alarmInteraction2");
+        yield return new WaitForSeconds(2f);
+
+        // 디버깅용, 실험용 출력 창 준비
+        var debugConsole = GameObject.Find("Prototype Manager").GetComponent<UI_test>();
+
+        bool up = false, down = false;
+        while (true)
+        {
+            Vector3 tiltRotation = Input.gyro.rotationRateUnbiased;
+            // 디버깅용
+            if(maxRotationSpeed < Mathf.Abs(tiltRotation.x))
+                maxRotationSpeed = Mathf.Abs(tiltRotation.x);
+            debugConsole.printUI(string.Format("TiltEnabled: {0}\nTilt Angle: {1}\nMaxRotationSpeed: {2}\ntileCount: {3}", Input.gyro.enabled,tiltRotation, maxRotationSpeed,tiltCount));
+            // 디버깅용 끝
+            if(tiltRotation.x > reqRotationSpeed) // 충분한 세기로 흔들고
+            {
+                up = true;
+            }
+            if(tiltRotation.x < -reqRotationSpeed)
+            {
+                down = true;
+            }
+            if(up && down && (lastCountTime + insensitivityTime < Time.time)) // 이전 끄덕끄덕 인정으로부터 충분한 시간이 지났을 때
+            {
+                tiltCount++;
+                lastCountTime = Time.time;
+                up = false; down = false;
+                // TODO: 여기에 끄덕끄덕 한번에 대한 리액션 연출 넣기
+            }
+            if (tiltCount >= reqCount)
+                break;
+            yield return null;
+        }
+        alarmInteractionClear = true; // 이 플래그가 서면 좋은하루 보내세요 하고 끝남.
     }
 }

@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arCameraManager: {fileID: 22732922}
-  debugOut: {fileID: 1242891643}
+  debugOut: {fileID: 0}
 --- !u!1 &798144321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMode: 1
-  Debug_AlarmInteraction: 1
+  Debug_AlarmInteraction: 2
   animator: {fileID: 800722332}
   audioSource: {fileID: 800722330}
   backToSleepTimeLimit: 5
@@ -2778,7 +2778,7 @@ GameObject:
   - component: {fileID: 1242891644}
   - component: {fileID: 1242891643}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Debug Output
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2824,15 +2824,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'lightIntensity: 0.0000000
-
-    color:RGBA(1.000, 1.000, 1.000, 0.000)
-
-    dafs
-
-    adasf
-
-    aedfea'
+  m_text: Debug Output will display here
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4983,7 +4975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1901922144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5231,7 +5223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0996a289032d8bd4aadb23e49499b737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  console: {fileID: 821252759}
+  console: {fileID: 1242891643}
 --- !u!4 &2117262468
 Transform:
   m_ObjectHideFlags: 0
