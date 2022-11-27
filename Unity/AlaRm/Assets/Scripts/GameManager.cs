@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
         foreach(var obj in NoDestroyList)
             DontDestroyOnLoad(obj);
 
+        // 세이브데이터 로드
+        SaveManager.instance.Load();
+
         StartCoroutine(startMainScene());
     }
 

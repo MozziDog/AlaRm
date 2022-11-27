@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class AlarmDetailWindow : MonoBehaviour
 {
+    public static AlarmDetailWindow instance { get; private set; }
+    bool isNewAlarm = false;
     UIWindowManager windowManager;
 
     [SerializeField]
@@ -37,18 +39,15 @@ public class AlarmDetailWindow : MonoBehaviour
 
     private void Start()
     {
-        /*
-        AlarmData testData = new();
-        testData.repeatDayInWeek = new bool[] { true, true, false, false, false, true, false};
-        OpenAlarmDetailWindow(testData);
-        */
+        instance = this;
         if(windowManager == null)
             windowManager = GetComponentInParent<UIWindowManager>();
     }
 
-    public void OpenAlarmDetailWindow(AlarmData alarm)
+    public void OpenAlarmDetailWindow(AlarmData alarm, bool newAlarm = false)
     {
         currentAlarmData = alarm;
+        isNewAlarm = newAlarm;
         GetUIColorData();
         InitializeWindow();
         windowManager.OpenWindow(gameObject);
@@ -81,17 +80,17 @@ public class AlarmDetailWindow : MonoBehaviour
 
     void UpdateTimeDisplay()
     {
-        text_ampm.text = currentAlarmData.time.Hour < 12 ? "AM" : "PM";
-        text_hour.text = string.Format("{0:D2}", currentAlarmData.time.Hour < 12 ? currentAlarmData.time.Hour : currentAlarmData.time.Hour - 12);
+        text_ampm.text = currentAlarmData.hour < 12 ? "AM" : "PM";
+        text_hour.text = string.Format("{0:D2}", currentAlarmData.hour < 12 ? currentAlarmData.hour : currentAlarmData.hour - 12);
         if (text_hour.text == "00")
             text_hour.text = "12";
-        text_min.text = string.Format("{0:D2}", currentAlarmData.time.Minute);
-        Debug.Log(string.Format("바뀐 시간: {0}", currentAlarmData.time));
+        text_min.text = string.Format("{0:D2}", currentAlarmData.minute);
+        // Debug.Log(string.Format("바뀐 시간: {0}", currentAlarmData.time));
     }
 
     private void UpdateRepeatDayText()
     {
-        Debug.Log("Update Repeat Day text");
+        // Debug.Log("Update Repeat Day text");
         bool everyDay = true;
         string text = "매주 ";
         for (int i = 0; i < 7; i++)
@@ -129,13 +128,10 @@ public class AlarmDetailWindow : MonoBehaviour
 
     public void OnClickButtonAMPM()
     {
-        /*
-        if(currentAlarmData.time.Hour < 12) // 오전일 경우 오후로 바꾸기
-            currentAlarmData.time.AddHours(12);
-        if (currentAlarmData.time.Hour < 12) // 오후일 경우 오전으로 바꾸기
-            currentAlarmData.time.AddHours(-12);
-        */
-        currentAlarmData.time.AddHours(12);
+        if (currentAlarmData.hour > 12)
+            currentAlarmData.hour -= 12;
+        else
+            currentAlarmData.hour += 12;
         UpdateTimeDisplay();
     }
 
@@ -145,47 +141,48 @@ public class AlarmDetailWindow : MonoBehaviour
         try
         {
             newHour = int.Parse(input.text);
-            if (newHour < 0 || newHour > 23)
+            if (newHour < 0 || newHour > 12)
                 throw new FormatException();
+            if (newHour == 12)
+                newHour = 0;
         }
         catch(ArgumentException)
         {
-            newHour = currentAlarmData.time.Hour;
+            UpdateTimeDisplay();
+            return;
         }
         catch (FormatException)
         {
-            newHour = currentAlarmData.time.Hour;
+            UpdateTimeDisplay();
+            return;
         }
         catch (OverflowException)
         {
-            newHour = currentAlarmData.time.Hour;
+            UpdateTimeDisplay();
+            return;
         }
-        DateTime now = DateTime.Now;
-        currentAlarmData.time = new DateTime(
-            now.Year,
-            now.Month,
-            now.Day,
-            newHour,
-            currentAlarmData.time.Minute,
-            now.Second);
+        if (text_ampm.text == "PM") //(currentAlarmData.hour >= 12)
+            newHour += 12;
+        Debug.Log("new Hour value: " + newHour);
+        currentAlarmData.hour = newHour;
         UpdateTimeDisplay();
     }
 
     public void OnClickButtonHourUp()
     {
-        if (currentAlarmData.time.Hour < 23)
-            currentAlarmData.time = currentAlarmData.time.AddHours(1);
+        if (currentAlarmData.hour < 23)
+            currentAlarmData.hour++;
         else
-            currentAlarmData.time = currentAlarmData.time.AddHours(-23);
+            currentAlarmData.hour = 0;
         UpdateTimeDisplay();
     }
 
     public void OnClickButtonHourDown()
     {
-        if (currentAlarmData.time.Hour > 0)
-            currentAlarmData.time = currentAlarmData.time.AddHours(-1);
+        if (currentAlarmData.hour > 0)
+            currentAlarmData.hour--;
         else
-            currentAlarmData.time = currentAlarmData.time.AddHours(23);
+            currentAlarmData.hour = 23;
         UpdateTimeDisplay();
     }
 
@@ -200,37 +197,36 @@ public class AlarmDetailWindow : MonoBehaviour
         }
         catch (ArgumentException)
         {
-            newMinute = currentAlarmData.time.Hour;
+            newMinute = currentAlarmData.hour;
         }
         catch (FormatException)
         {
-            newMinute = currentAlarmData.time.Hour;
+            newMinute = currentAlarmData.hour;
         }
         catch (OverflowException)
         {
-            newMinute = currentAlarmData.time.Hour;
+            newMinute = currentAlarmData.hour;
         }
-        DateTime now = DateTime.Now;
-        currentAlarmData.time = new DateTime(
-            now.Year,
-            now.Month,
-            now.Day,
-            currentAlarmData.time.Hour,
-            newMinute,
-            now.Second);
+        currentAlarmData.minute = newMinute;
         UpdateTimeDisplay();
     }
 
     public void OnClickButtonMinuteUp()
     {
-        if (currentAlarmData.time.Minute < 59)
-            currentAlarmData.time = currentAlarmData.time.AddMinutes(1);
+        if (currentAlarmData.minute < 59)
+            currentAlarmData.minute++;
         else
         {
-            if (currentAlarmData.time.Hour < 23)
-                currentAlarmData.time = currentAlarmData.time.AddHours(1).AddMinutes(-59);
+            if (currentAlarmData.hour < 23)
+            {
+                currentAlarmData.hour++;
+                currentAlarmData.minute = 0;
+            }
             else
-                currentAlarmData.time = currentAlarmData.time.AddHours(-23).AddMinutes(-59);
+            {
+                currentAlarmData.hour = 0;
+                currentAlarmData.minute = 0;
+            }
         }
             
         UpdateTimeDisplay();
@@ -238,14 +234,20 @@ public class AlarmDetailWindow : MonoBehaviour
 
     public void OnClickButtonMinuteDown()
     {
-        if (currentAlarmData.time.Minute > 0)
-            currentAlarmData.time = currentAlarmData.time.AddMinutes(-1);
+        if (currentAlarmData.minute > 0)
+            currentAlarmData.minute--;
         else
         {
-            if (currentAlarmData.time.Hour > 0)
-                currentAlarmData.time = currentAlarmData.time.AddHours(-1).AddMinutes(59);
+            if (currentAlarmData.hour > 0)
+            {
+                currentAlarmData.hour--;
+                currentAlarmData.minute = 59;
+            }
             else
-                currentAlarmData.time = currentAlarmData.time.AddHours(23).AddMinutes(59);
+            {
+                currentAlarmData.hour = 23;
+                currentAlarmData.minute = 59;
+            }
         }
         UpdateTimeDisplay();
     }
@@ -295,11 +297,58 @@ public class AlarmDetailWindow : MonoBehaviour
         windowManager.CloseWindow(gameObject);
     }
 
-    public void OnClickSubmitButton()
+    public void OnClickDeleteButton()
     {
-        // TODO: 여기에 자바랑 통신하는 코드 넣기
+        int index = SaveManager.instance.saveData.alarms.FindIndex((alarm) => { return alarm.alarmID == currentAlarmData.alarmID; });
+        SaveManager.instance.saveData.alarms.RemoveAt(index);
+
+        AndroidPluginLoader.Instance.CancelAlarm(currentAlarmData.alarmID);
+
+        AlarmListWindow.Instance.UpdateAlarmWindow();
         // TODO: 여기에 창 닫기 연출 만들기
         windowManager.CloseWindow(gameObject);
-        // TODO: 여기에 X시 XX분 후에 알람이 울립니다 메시지 띄우는 코드 넣기
+    }
+
+    public void OnClickSubmitButton()
+    {
+        // 세이브데이터에 추가하면서 기존에 동일한 ID의 알람이 있는지 확인
+        bool isNew = AddOrUpdateAlarm(currentAlarmData);
+        SaveManager.instance.Save();
+        // 기존에 동일한 ID의 알람이 있었다면 취소 후 다시 등록
+        if (!isNew)
+            AndroidPluginLoader.Instance.CancelAlarm(currentAlarmData.alarmID);
+        AndroidPluginLoader.Instance.SetAlarm(currentAlarmData.alarmID, currentAlarmData.hour, currentAlarmData.minute);
+
+        // TODO: 여기에 창 닫기 연출 만들기
+        windowManager.CloseWindow(gameObject);
+
+        AndroidPluginLoader.Instance.ShowToast(String.Format("{0}시 {1}분에 알람이 울립니다", currentAlarmData.hour, currentAlarmData.minute));
+
+        AlarmListWindow.Instance.UpdateAlarmWindow();
+    }
+
+    /// <summary>
+    /// return true if 'Add', return false if 'Update'
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public bool AddOrUpdateAlarm(AlarmData input)
+    {
+        ref List<AlarmData> alarms = ref SaveManager.instance.saveData.alarms;
+        for (int i = 0; i < alarms.Count; i++)
+        {
+            if (alarms[i].alarmID == input.alarmID) // update
+            {
+                alarms[i] = input;
+                Debug.Log("AddOrUpdateAlarm: 기존 알람 업데이트");
+                // 여기서 Save가 필요하려나?
+                return true;
+            }
+        }
+        alarms.Add(input);
+        Debug.Log("AddOrUpdateAlarm: 신규 알람 등록");
+        // 여기서 Save가 필요하려나? 22
+        Debug.Log("현재 saveData.alarms.Count:" + alarms.Count.ToString());
+        return false;
     }
 }
