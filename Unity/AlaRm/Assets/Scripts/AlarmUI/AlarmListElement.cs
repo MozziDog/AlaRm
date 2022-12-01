@@ -23,7 +23,7 @@ public class AlarmListElement : MonoBehaviour
     [SerializeField]
     Toggle toggle;
 
-    AlarmData alarmData;
+    AlarmData _alarmData;
 
     Color fontColor_active;              // = Color.white;
     Color fontColor_unactive;            // = new Color(.6f, .6f, .6f, 1);
@@ -32,7 +32,7 @@ public class AlarmListElement : MonoBehaviour
 
     public void SetAlarmListElementData(AlarmData inputData)
     {
-        this.alarmData = inputData;
+        this._alarmData = inputData;
         GetUIColorData();
         UpdateAlarmListElementDisplay();
     }
@@ -48,24 +48,24 @@ public class AlarmListElement : MonoBehaviour
 
     private void UpdateAlarmListElementDisplay()
     {
-        text_Title.text = alarmData.alarmTitle;
-        text_ampm.text = alarmData.time.Hour < 12 ? "AM" : "PM";
-        int hour = alarmData.time.Hour < 12 ? alarmData.time.Hour : alarmData.time.Hour - 12;
+        text_Title.text = _alarmData.alarmTitle;
+        text_ampm.text = _alarmData.hour < 12 ? "AM" : "PM";
+        int hour = _alarmData.hour < 12 ? _alarmData.hour : _alarmData.hour - 12;
         if (hour == 0)
             hour = 12;
-        text_time.text = string.Format("{0:D2}:{1:D2}", hour, alarmData.time.Minute);
-        if(alarmConfig.alarmTypeImages.Count > (int)alarmData.dialogueType)
-            alarmTypeIcon.sprite = alarmConfig.alarmTypeImages[(int)alarmData.dialogueType];
+        text_time.text = string.Format("{0:D2}:{1:D2}", hour, _alarmData.minute);
+        if(alarmConfig.alarmTypeImages.Count > (int)_alarmData.dialogueType)
+            alarmTypeIcon.sprite = alarmConfig.alarmTypeImages[(int)_alarmData.dialogueType];
 
         // 폰트 컬러 설정
-        if (this.alarmData.active)
+        if (_alarmData.active)
         {
             text_Title.color = fontColor_active;
             text_ampm.color = fontColor_active;
             text_time.color = fontColor_active;
             for(int i=0; i<7; i++)
             {
-                repeatDayInWeek[i].color = alarmData.repeatDayInWeek[i] == true ? fontColor_selected : fontColor_active;
+                repeatDayInWeek[i].color = _alarmData.repeatDayInWeek[i] == true ? fontColor_selected : fontColor_active;
             }
         }
         else
@@ -75,22 +75,22 @@ public class AlarmListElement : MonoBehaviour
             text_time.color = fontColor_unactive;
             for (int i = 0; i < 7; i++)
             {
-                repeatDayInWeek[i].color = alarmData.repeatDayInWeek[i] == true ? fontColor_selected_unactive : fontColor_unactive;
+                repeatDayInWeek[i].color = _alarmData.repeatDayInWeek[i] == true ? fontColor_selected_unactive : fontColor_unactive;
             }
         }
 
-        toggle.isOn = this.alarmData.active;
+        toggle.isOn = _alarmData.active;
     }
 
     public void OnClickAlarmListElement()
     {
-        var alarmDetailWindow = GameObject.FindGameObjectWithTag("AlarmDetailWindow")?.GetComponent<AlarmDetailWindow>();
-        alarmDetailWindow.OpenAlarmDetailWindow(alarmData);
+        var alarmDetailWindow = AlarmDetailWindow.instance;
+        alarmDetailWindow.OpenAlarmDetailWindow(_alarmData);
     }
 
     public void OnToggleValueChanged(Toggle change)
     {
-        this.alarmData.active = change.isOn;
+        _alarmData.active = change.isOn;
         // TODO: 여기에 자바랑 통신하도록 하는 코드 넣기
         UpdateAlarmListElementDisplay();
     }

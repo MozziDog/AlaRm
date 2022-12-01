@@ -1,14 +1,15 @@
-﻿using QuantumTek.QuantumUI;
+using QuantumTek.QuantumUI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct AlarmData
+[Serializable] public struct AlarmData
 {
     public bool active;
     public int alarmID;
     public string alarmTitle;
-    public DateTime time;  // date 부분은 무시하고 time만 사용함.
+    public int hour;
+    public int minute;
     public bool[] repeatDayInWeek; // 0~6, 순서대로 월화수목금토일
     public AlarmDialogueType dialogueType;
 }
