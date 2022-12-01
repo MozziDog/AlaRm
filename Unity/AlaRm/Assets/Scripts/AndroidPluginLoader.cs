@@ -6,8 +6,8 @@ using UnityEngine;
 public class AndroidPluginLoader : MonoBehaviour
 {
 #if !UNITY_EDITOR && UNITY_ANDROID
-    private static AndroidJavaClass testAndroidPlugin = new AndroidJavaClass("com.example.unityplugin.UnityPluginWrapper");
-    private static AndroidJavaClass alarmAndoidPlugin = new AndroidJavaClass("com.example.plugin.UnityPlugin");
+    // private static AndroidJavaClass alarmAndoidPlugin = new AndroidJavaClass("com.example.plugin.UnityPlugin");
+    private static AndroidJavaClass alarmAndoidPlugin = null;
 #else
     private static AndroidJavaClass alarmAndoidPlugin = null;
 #endif
@@ -25,9 +25,13 @@ public class AndroidPluginLoader : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-    }
 
-    public static AndroidPluginLoader Instance
+    #if !UNITY_EDITOR && UNITY_ANDROID
+        alarmAndoidPlugin = new AndroidJavaClass("com.example.plugin.UnityPlugin");
+    #endif
+}
+
+public static AndroidPluginLoader Instance
     {
         get
         {
