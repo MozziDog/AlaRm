@@ -6,6 +6,7 @@ public class Prop : MonoBehaviour
 {
     public static List<Prop> propList = new List<Prop>();
     Collider col;
+    public Dictionary<string, float> propParameter = new Dictionary<string, float>();
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +59,14 @@ public class Prop : MonoBehaviour
     {
 
     }
+
+    public void SetPropParameter(string key, float value)
+    {
+        if (!propParameter.TryAdd(key, value))
+        {
+            propParameter[key] = value;
+        }
+    }
     
     // 모든 Prop은 DestroySelf를 구현하여 삭제 명령이 들어오면 스스로를 삭제할 수 있어야 함.
     public virtual void DestroySelf()
@@ -67,10 +76,11 @@ public class Prop : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public static void SpawnProps(GameObject prefab, Vector3 pos, Quaternion rot)
+    public static GameObject SpawnProps(GameObject prefab, Vector3 pos, Quaternion rot)
     {
         GameObject spawned = Instantiate(prefab, pos, rot);
         propList.Add(spawned.GetComponent<Prop>());
+        return spawned;
     }
 
     public static void ClearAllProps()

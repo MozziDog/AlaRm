@@ -9,21 +9,26 @@ public class Character00 : Character
     [SerializeField] private GameObject ToothbrushPrefab;
     public Character00()
     {
-        alarmInteractionCount = 2;
+        ALARM_INTERACTION_COUNT = 2;
     }
 
     // Alarm Interaction #0 비누방울
-    protected override IEnumerator AlarmInteraction0()
+    protected override IEnumerator AlarmInteraction0(int difficulty)
     {
+        int PROP_COUNT = 2 + difficulty;
+        float PROP_MOVEMENT_INTERVAL = 3f / (1+ (difficulty-1)/10f);
+
         Debug.Log("started AlarmInteraction #0");
         animator.SetTrigger("alarmInteraction0");
         yield return new WaitForSeconds(2f);
-        for(int i= 0; i < 3; i++)
+        for(int i= 0; i < PROP_COUNT; i++)
         {
             Vector3 instancePosition = this.transform.position;
             instancePosition += new Vector3(Random.Range(-2f, 2f), Random.Range(-2f, 2f));
-            SpawnProp(BubblePrefab, instancePosition, Quaternion.identity);
+            Prop prop = SpawnProp(BubblePrefab, instancePosition, Quaternion.identity).GetComponent<Prop>();
+            prop.SetPropParameter("propMovementInterval", PROP_MOVEMENT_INTERVAL);
         }
+
         while(true)
         {
             int leftBubble = Prop.propList.Count;
@@ -34,14 +39,19 @@ public class Character00 : Character
     }
 
     // Alarm Interaction #1 칫솔
-    protected override IEnumerator AlarmInteraction1()
+    protected override IEnumerator AlarmInteraction1(int difficulty)
     {
+        float ALLOWED_DISTANCE = 0.3f - 0.03f * (difficulty - 1);
+        float REQ_TIME = 3f + difficulty;
         Debug.Log("started AlarmInteraction #1");
         animator.SetTrigger("alarmInteraction1");
         yield return new WaitForSeconds(2f);
         Vector3 instancePosition = this.transform.position;
         instancePosition += new Vector3(1, -1, -1.8f);
-        SpawnProp(ToothbrushPrefab, instancePosition, Quaternion.Euler(-50, 30, 60));
+        Prop prop = SpawnProp(ToothbrushPrefab, instancePosition, Quaternion.Euler(-50, 30, 60)).GetComponent<Prop>();
+        prop.SetPropParameter("allowedDistance", ALLOWED_DISTANCE);
+        prop.SetPropParameter("reqTime", REQ_TIME);
+
         while (true)
         {
             if(Prop.propList.Count == 0) break; // 칫솔은 일정 시간 양치되고 나면 알아서 사라짐
@@ -51,10 +61,11 @@ public class Character00 : Character
     }
 
     // Alarm Interaction #2 끄덕끄덕
-    protected override IEnumerator AlarmInteraction2()
+    protected override IEnumerator AlarmInteraction2(int difficulty)
     {
-        int tiltCount = 0, reqCount = 3;
-        float reqRotationSpeed = 4; // TODO: 이 값 실험으로 적정값 찾아서 고쳐야 함.
+        int tiltCount = 0, reqCount = 2 + difficulty;
+        // TODO: 이 값 실험으로 적정값 찾아서 고쳐야 함.
+        float reqRotationSpeed = 4 * (0.8f + 0.2f * difficulty); 
         float insensitivityTime = 0.5f;    // 핸드폰 흔들때 너무 빠르게 카운트 올라가는 거 방지용
         float lastCountTime = Time.time;
 

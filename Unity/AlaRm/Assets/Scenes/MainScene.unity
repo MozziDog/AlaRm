@@ -1732,7 +1732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugMode: 1
-  Debug_AlarmInteraction: 2
+  Debug_AlarmInteraction: 1
   animator: {fileID: 800722332}
   audioSource: {fileID: 800722330}
   backToSleepTimeLimit: 5

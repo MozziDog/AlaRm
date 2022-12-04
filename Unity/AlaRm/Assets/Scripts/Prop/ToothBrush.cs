@@ -10,12 +10,22 @@ public class ToothBrush : Prop
     [SerializeField] 
     float offsetDisplay;
 
+    float allowedDistance = 0.3f, reqTime;
+
 
     // TODO : 디버깅 완료되면 private로 만들기
     [SerializeField] Transform charaMouth;
     [SerializeField] Transform brushHead;
 
     public float duration = 0f;
+
+    private void Start()
+    {
+        Debug.Assert(propParameter.TryGetValue("allowedDistance", out allowedDistance));
+        Debug.Assert(propParameter.TryGetValue("reqTime", out reqTime));
+        Debug.Log("allowedDistance: " + allowedDistance);
+        Debug.Log("reqTime: " + reqTime);
+    }
 
     protected override void OnTouchBegan()
     {
@@ -57,7 +67,7 @@ public class ToothBrush : Prop
             // 디버깅용
             offsetDisplay = offset;
 
-            if(offset < 0.3)
+            if(offset < allowedDistance)
             {
                 duration += Time.deltaTime;
 

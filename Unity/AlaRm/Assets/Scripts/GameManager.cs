@@ -1,3 +1,5 @@
+#define DEBUG
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,12 +20,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] List<GameObject> NoDestroyList = new List<GameObject>();
-
     [SerializeField] // TODO: 개발 완료되면 readonly로 수정할 것. 
     public Situation appMode = Situation.AlarmSituation;
-
     [SerializeField] GameObject characterToSpawn; // 개발용. 일단 임시로 스폰할 캐릭터를 인스펙터에서 명시
+
+    [SerializeField] List<GameObject> NoDestroyList = new List<GameObject>();
+
     GameObject character; // 현재 스폰되어있는 캐릭터.
 
 
@@ -38,7 +40,9 @@ public class GameManager : MonoBehaviour
 
         // 세이브데이터 로드
         SaveManager.instance.Load();
-
+#if DEBUG
+        appMode = Situation.AlarmSituation;
+#else
         int? nowAlarmID;
         appMode = GetAppSituation(out nowAlarmID);
         if(appMode == Situation.AlarmSituation)
@@ -46,7 +50,7 @@ public class GameManager : MonoBehaviour
             Debug.Assert(nowAlarmID != null, "Cannot get now Alarm ID!");
             CheckAndSetAlarmRepeat((int)nowAlarmID);
         }
-
+#endif
         StartCoroutine(startMainScene());
     }
 

@@ -32,9 +32,10 @@ public class Character : MonoBehaviour
     [SerializeField] protected float backToSleepTimeLimit = 10f;
     [SerializeField] protected List<SerializablePair<string, AudioClip>> audioClips;
 
-    protected int alarmInteractionCount;
+    protected int ALARM_INTERACTION_COUNT;
     public CharacterStatus status { get; protected set; }
     protected bool alarmInteractionClear = false;
+    protected int alarmInteractionDifficulty = 1;
 
     void Start()
     {
@@ -54,6 +55,7 @@ public class Character : MonoBehaviour
     IEnumerator AlarmSequence()
     {
         status = CharacterStatus.PrepareToWakingUp;
+        alarmInteractionDifficulty = 1;
         while (true)
         {
             if (status == CharacterStatus.PrepareToWakingUp)
@@ -88,7 +90,7 @@ public class Character : MonoBehaviour
                 // 기상 미션 제시
                 Coroutine interactionCoroutine = null;
                 string alarmInteraction = SelectAlarmInteraction();
-                interactionCoroutine = StartCoroutine(alarmInteraction);
+                interactionCoroutine = StartCoroutine(alarmInteraction, alarmInteractionDifficulty);
                 alarmInteractionClear = false;
 
                 // 기상미션 하는 동안 대기
@@ -108,6 +110,7 @@ public class Character : MonoBehaviour
                         ClearProps();
                         status = CharacterStatus.PrepareToWakingUp;
                         StopCoroutine(interactionCoroutine);
+                        AddDifficulty();
                         break;
                     }
                     else
@@ -138,26 +141,32 @@ public class Character : MonoBehaviour
         if (DebugMode)
             return "AlarmInteraction" + Debug_AlarmInteraction;
 
-        int index = Random.Range(0, alarmInteractionCount);
+        int index = Random.Range(0, ALARM_INTERACTION_COUNT);
         return "AlarmInteraction" + index;
     }
 
-    protected virtual IEnumerator AlarmInteraction0()
+    protected virtual IEnumerator AlarmInteraction0(int difficulty)
     {
         Debug.Log("started AlarmInteraction0");
         yield return 0;
     }
 
-    protected virtual IEnumerator AlarmInteraction1()
+    protected virtual IEnumerator AlarmInteraction1(int difficulty)
     {
         Debug.Log("started AlarmInteraction1");
         yield return 0;
     }
 
-    protected virtual IEnumerator AlarmInteraction2()
+    protected virtual IEnumerator AlarmInteraction2(int difficulty)
     {
         Debug.Log("started AlarmInteraction2");
         yield return 0;
+    }
+
+    void AddDifficulty()
+    {
+        if (alarmInteractionDifficulty < 3)
+            alarmInteractionDifficulty++;
     }
 
     void PlayGreetings()
@@ -166,9 +175,9 @@ public class Character : MonoBehaviour
         Debug.Log("좋은 하루 되세요!");
     }
 
-    protected void SpawnProp(GameObject prefab, Vector3 position, Quaternion rotation)
+    protected GameObject SpawnProp(GameObject prefab, Vector3 position, Quaternion rotation)
     {
-        Prop.SpawnProps(prefab, position, rotation);
+        return Prop.SpawnProps(prefab, position, rotation);
     }
 
     protected virtual void ClearProps()
