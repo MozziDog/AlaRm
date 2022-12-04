@@ -176,7 +176,7 @@ RectTransform:
   - {fileID: 4693830262956071166}
   - {fileID: 4693830262083727100}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -258,13 +258,13 @@ MonoBehaviour:
   text_ampm: {fileID: 2372629951999197332}
   text_time: {fileID: 2372629950797051910}
   repeatDayInWeek:
+  - {fileID: 4693830263107588796}
   - {fileID: 4693830261744886888}
   - {fileID: 4693830262506366703}
   - {fileID: 4693830263596531476}
   - {fileID: 4693830262326798346}
   - {fileID: 4693830262055063684}
   - {fileID: 4693830262782529434}
-  - {fileID: 4693830263107588796}
   alarmTypeIcon: {fileID: 4693830262956071167}
   toggle: {fileID: 8027388542296622194}
 --- !u!114 &7047732781330725538
@@ -896,13 +896,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4693830263107588799}
   - {fileID: 4693830261744886891}
   - {fileID: 4693830262506366702}
   - {fileID: 4693830263596531479}
   - {fileID: 4693830262326798341}
   - {fileID: 4693830262055063687}
   - {fileID: 4693830262782529429}
-  - {fileID: 4693830263107588799}
   m_Father: {fileID: 2372629951260725630}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1698,6 +1698,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 2372629951260725630}
     m_Modifications:
     - target: {fileID: 1158131092917841019, guid: ef6c0f3c22f2c4cc992d6c624fa72d03,
@@ -1936,6 +1937,7 @@ PrefabInstance:
       value: UnityEngine.UI.Toggle, UnityEngine.UI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ef6c0f3c22f2c4cc992d6c624fa72d03, type: 3}
 --- !u!224 &1506780310884345567 stripped
 RectTransform:

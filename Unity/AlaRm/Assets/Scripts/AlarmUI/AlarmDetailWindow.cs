@@ -35,7 +35,7 @@ public class AlarmDetailWindow : MonoBehaviour
 
     AlarmData currentAlarmData;
 
-    readonly string[] daysinWeekString = { "월", "화", "수", "목", "금", "토", "일"};
+    readonly string[] daysinWeekString = { "일", "월", "화", "수", "목", "금", "토" };
 
     private void Start()
     {

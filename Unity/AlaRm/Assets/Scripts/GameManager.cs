@@ -18,6 +18,8 @@ public enum Situation
 
 public class GameManager : MonoBehaviour
 {
+    public bool isDebug;    // TODO: 개발 완료되면 삭제
+
     public static GameManager instance;
 
     [SerializeField] // TODO: 개발 완료되면 readonly로 수정할 것. 
@@ -40,17 +42,20 @@ public class GameManager : MonoBehaviour
 
         // 세이브데이터 로드
         SaveManager.instance.Load();
-#if DEBUG
-        appMode = Situation.AlarmSituation;
-#else
-        int? nowAlarmID;
-        appMode = GetAppSituation(out nowAlarmID);
-        if(appMode == Situation.AlarmSituation)
+        if (isDebug)
         {
-            Debug.Assert(nowAlarmID != null, "Cannot get now Alarm ID!");
-            CheckAndSetAlarmRepeat((int)nowAlarmID);
+            // do nothing
         }
-#endif
+        else
+        {
+            int? nowAlarmID;
+            appMode = GetAppSituation(out nowAlarmID);
+            if (appMode == Situation.AlarmSituation)
+            {
+                Debug.Assert(nowAlarmID != null, "Cannot get now Alarm ID!");
+                CheckAndSetAlarmRepeat((int)nowAlarmID);
+            }
+        }
         StartCoroutine(startMainScene());
     }
 
@@ -66,7 +71,7 @@ public class GameManager : MonoBehaviour
 
             // 일단 활성화된 알람일 경우
             DateTime now = DateTime.Now;
-            if(now.Hour == alarm.hour && now.Minute == alarm.hour)
+            if(now.Hour == alarm.hour && now.Minute == alarm.minute)
             {
                 // 오늘 요일이 true인 경우
                 if (alarm.repeatDayInWeek[((int)now.DayOfWeek)] == true)
@@ -105,7 +110,7 @@ public class GameManager : MonoBehaviour
     void CheckAndSetAlarmRepeat(int alarmID)
     {
         AlarmData? alarmToRepeat = SaveManager.instance.saveData.alarms.Find((alarm) => { return alarm.alarmID == alarmID; });
-        Debug.Assert(alarmToRepeat == null, "Cannot Find Alarm to Repeat!");
+        Debug.Assert(alarmToRepeat != null, "Cannot Find Alarm to Repeat!");
         AlarmData alarm = alarmToRepeat.Value;
 
         if (alarm.repeatDayInWeek[((int)DateTime.Now.DayOfWeek)] == true)
