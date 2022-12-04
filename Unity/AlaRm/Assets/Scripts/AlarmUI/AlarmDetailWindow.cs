@@ -319,7 +319,10 @@ public class AlarmDetailWindow : MonoBehaviour
         int index = SaveManager.instance.saveData.alarms.FindIndex((alarm) => { return alarm.alarmID == currentAlarmData.alarmID; });
         SaveManager.instance.saveData.alarms.RemoveAt(index);
 
-        AndroidPluginLoader.Instance.CancelAlarm(currentAlarmData.alarmID);
+        for (int i = 0; i < 7; i++)
+        {
+            AndroidPluginLoader.Instance.CancelAlarm(currentAlarmData.alarmID * 10 + i);
+        }
 
         AlarmListWindow.Instance.UpdateAlarmWindow();
         // TODO: 여기에 창 닫기 연출 만들기
@@ -333,7 +336,12 @@ public class AlarmDetailWindow : MonoBehaviour
         SaveManager.instance.Save();
         // 기존에 동일한 ID의 알람이 있었다면 취소 후 다시 등록
         if (!isNew)
-            AndroidPluginLoader.Instance.CancelAlarm(currentAlarmData.alarmID);
+        {
+            for (int i = 0; i<7; i++)
+            {
+                AndroidPluginLoader.Instance.CancelAlarm(currentAlarmData.alarmID * 10 + i);
+            }
+        }
 
         bool repeatSet = false;
         for(int i=0; i<7; i++)
@@ -347,7 +355,7 @@ public class AlarmDetailWindow : MonoBehaviour
             for(int i=0; i<7; i++)
             {
                 if (currentAlarmData.repeatDayInWeek[i] == true)
-                    AndroidPluginLoader.Instance.SetAlarmWithDayOfWeek(currentAlarmData.alarmID, i, currentAlarmData.hour, currentAlarmData.minute);
+                    AndroidPluginLoader.Instance.SetAlarmWithDayOfWeek(currentAlarmData.alarmID * 10 + 1, i, currentAlarmData.hour, currentAlarmData.minute);
             }
         }
         else

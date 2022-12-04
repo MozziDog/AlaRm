@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
 
         if (alarm.repeatDayInWeek[((int)DateTime.Now.DayOfWeek)] == true)
         {
-            AndroidPluginLoader.Instance.SetAlarmWithDayOfWeek(alarm.alarmID, ((int)DateTime.Now.DayOfWeek), alarm.hour, alarm.minute);
+            AndroidPluginLoader.Instance.SetAlarmWithDayOfWeek(alarm.alarmID * 10 + (int)DateTime.Now.DayOfWeek, ((int)DateTime.Now.DayOfWeek), alarm.hour, alarm.minute);
             Debug.Log("Alarm Repeat set");
         }
         else
