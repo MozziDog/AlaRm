@@ -90,21 +90,38 @@ public class AlarmDetailWindow : MonoBehaviour
 
     private void UpdateRepeatDayText()
     {
-        // Debug.Log("Update Repeat Day text");
-        bool everyDay = true;
-        string text = "매주 ";
-        for (int i = 0; i < 7; i++)
+        bool repeat = false;
+        for(int i=0; i<7; i++)
         {
             if (toggle_repeatDays[i].isOn)
-                text += daysinWeekString[i] + " ";
-            else
-                everyDay = false;
+            {
+                repeat = true;
+                break;
+            }    
         }
-        if (everyDay)
-            text = "매일 반복";
+
+        if (repeat)
+        {
+            // Debug.Log("Update Repeat Day text");
+            bool everyDay = true;
+            string text = "매주 ";
+            for (int i = 0; i < 7; i++)
+            {
+                if (toggle_repeatDays[i].isOn)
+                    text += daysinWeekString[i] + " ";
+                else
+                    everyDay = false;
+            }
+            if (everyDay)
+                text = "매일 반복";
+            else
+                text += "반복";
+            text_repeatDaysInfo.text = text;
+        }
         else
-            text += "반복";
-        text_repeatDaysInfo.text = text;
+        {
+            text_repeatDaysInfo.text = "반복 안함";
+        }
     }
 
     void UpdateToggleColor()
@@ -317,7 +334,26 @@ public class AlarmDetailWindow : MonoBehaviour
         // 기존에 동일한 ID의 알람이 있었다면 취소 후 다시 등록
         if (!isNew)
             AndroidPluginLoader.Instance.CancelAlarm(currentAlarmData.alarmID);
-        AndroidPluginLoader.Instance.SetAlarm(currentAlarmData.alarmID, currentAlarmData.hour, currentAlarmData.minute);
+
+        bool repeatSet = false;
+        for(int i=0; i<7; i++)
+        {
+            if (currentAlarmData.repeatDayInWeek[i] == true)
+                repeatSet = true;
+        }
+
+        if(repeatSet)
+        {
+            for(int i=0; i<7; i++)
+            {
+                if (currentAlarmData.repeatDayInWeek[i] == true)
+                    AndroidPluginLoader.Instance.SetAlarmWithDayOfWeek(currentAlarmData.alarmID, i, currentAlarmData.hour, currentAlarmData.minute);
+            }
+        }
+        else
+        {
+            AndroidPluginLoader.Instance.SetAlarm(currentAlarmData.alarmID, currentAlarmData.hour, currentAlarmData.minute);
+        }
 
         // TODO: 여기에 창 닫기 연출 만들기
         windowManager.CloseWindow(gameObject);

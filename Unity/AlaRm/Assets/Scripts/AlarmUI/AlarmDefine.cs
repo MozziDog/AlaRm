@@ -10,7 +10,7 @@ using UnityEngine;
     public string alarmTitle;
     public int hour;
     public int minute;
-    public bool[] repeatDayInWeek; // 0~6, 순서대로 월화수목금토일
+    public bool[] repeatDayInWeek; // 0~6, 순서대로 일월화수목금토
     public AlarmDialogueType dialogueType;
 }
 
