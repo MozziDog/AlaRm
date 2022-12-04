@@ -18,6 +18,9 @@ public class UIWindowManager : MonoBehaviour
     [SerializeField]
     List<QUI_Window> alarmSequenceUI;
 
+    // 외부 클래스 접근용
+    public bool isUIStackEmpty { get { return windowStack.Count == 0; } }
+
     private void Start()
     {
         if(windowStack == null)

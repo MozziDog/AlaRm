@@ -193,7 +193,7 @@ public class Character : MonoBehaviour
     {
         if (GameManager.instance.appMode == Situation.NormalSituation)
         {
-            if(touchManager.touchPhase == TouchPhase.Began && touchReaction == null)
+            if (touchManager.touchPhase != null && touchManager.touchPhase == TouchPhase.Began && touchReaction == null)
             {
                 var clips = animator.GetCurrentAnimatorClipInfo(0);
                 foreach(var clipInfo in clips)

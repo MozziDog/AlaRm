@@ -5,6 +5,7 @@ using UnityEngine.InputSystem.EnhancedTouch;
 
 public class CharacterTouchManager : MonoBehaviour
 {
+    [SerializeField] UIWindowManager uiManager;
     public UI_test ui; // 목소리 나오기 전까지 테스트용 출력
 
     public TouchPhase? touchPhase = null;
@@ -23,17 +24,17 @@ public class CharacterTouchManager : MonoBehaviour
     void Start()
     {
         TouchSimulation.Enable();   // 마우스로 터치 시뮬레이션 활성화
+        Debug.Assert(uiManager != null, "UI Manager refernce in CharacterTouchManager is null");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.touchCount > 0)
+        if (uiManager.isUIStackEmpty && Input.touchCount > 0)
         {
             theTouch = Input.GetTouch(0);
             if (theTouch.phase == TouchPhase.Began)
             {
-                this.touchPhase = TouchPhase.Began;
                 Vector2 screenPoint = theTouch.position;
                 Ray ray = Camera.main.ScreenPointToRay(screenPoint);
                 LayerMask layerMask = LayerMask.GetMask("Touchable");

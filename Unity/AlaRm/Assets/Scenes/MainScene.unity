@@ -5488,6 +5488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5418995f2aff85459408c7aaf093403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 281250574}
   ui: {fileID: 2117262467}
   stateHoldTime: 0.3
 --- !u!136 &1762363515
