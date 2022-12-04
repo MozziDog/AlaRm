@@ -22,11 +22,12 @@ public class Prop : MonoBehaviour
             Touch theTouch = Input.GetTouch(0);
             Vector2 screenPoint = theTouch.position;
             Ray ray = Camera.main.ScreenPointToRay(screenPoint);
+            Debug.DrawLine(ray.origin, ray.direction);
             LayerMask layerMask = LayerMask.GetMask("Touchable");
             RaycastHit[] hits = Physics.RaycastAll(ray, float.MaxValue, layerMask);
             foreach (RaycastHit hit in hits)
             {
-                if (hit.collider == this.col)
+                if (hit.transform == transform)
                     switch(theTouch.phase)
                     {
                         case TouchPhase.Began:

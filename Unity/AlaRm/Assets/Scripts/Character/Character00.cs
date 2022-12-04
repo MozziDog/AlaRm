@@ -1,3 +1,4 @@
+using Dev.ComradeVanti.WaitForAnim;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class Character00 : Character
         float PROP_MOVEMENT_INTERVAL = 3f / (1+ (difficulty-1)/10f);
 
         Debug.Log("started AlarmInteraction #0");
-        animator.SetTrigger("alarmInteraction0");
+        SetAnimationTrigger("alarmInteraction0");
         yield return new WaitForSeconds(2f);
         for(int i= 0; i < PROP_COUNT; i++)
         {
@@ -44,7 +45,7 @@ public class Character00 : Character
         float ALLOWED_DISTANCE = 0.3f - 0.03f * (difficulty - 1);
         float REQ_TIME = 3f + difficulty;
         Debug.Log("started AlarmInteraction #1");
-        animator.SetTrigger("alarmInteraction1");
+        SetAnimationTrigger("alarmInteraction1");
         yield return new WaitForSeconds(2f);
         Vector3 instancePosition = this.transform.position;
         instancePosition += new Vector3(1, -1, -1.8f);
@@ -75,7 +76,7 @@ public class Character00 : Character
         Debug.Log("started AlarmInteraction #2");
         Input.gyro.enabled = true;  // 자이로 센서 활성화
 
-        animator.SetTrigger("alarmInteraction2");
+        SetAnimationTrigger("alarmInteraction2");
         yield return new WaitForSeconds(2f);
 
         // 디버깅용, 실험용 출력 창 준비
@@ -110,5 +111,12 @@ public class Character00 : Character
             yield return null;
         }
         alarmInteractionClear = true; // 이 플래그가 서면 좋은하루 보내세요 하고 끝남.
+    }
+
+    protected override IEnumerator TouchReaction()
+    {
+        SetAnimationTrigger("touchReaction");
+        yield return new WaitForSeconds(2f);
+        touchReaction = null;
     }
 }

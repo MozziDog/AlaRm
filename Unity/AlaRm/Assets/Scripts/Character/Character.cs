@@ -22,23 +22,29 @@ public class Character : MonoBehaviour
     public int Debug_AlarmInteraction = 0;
 
     [Space(10f)]
-    // 개발용
+    // 개발용 끝
 
     [Header("Components")]
     [SerializeField] protected Animator animator;
     [SerializeField] protected AudioSource audioSource;
+    [ReadOnly] protected CharacterTouchManager touchManager;
     [Space(10f)]
 
     [SerializeField] protected float backToSleepTimeLimit = 10f;
     [SerializeField] protected List<SerializablePair<string, AudioClip>> audioClips;
 
-    protected int ALARM_INTERACTION_COUNT;
     public CharacterStatus status { get; protected set; }
+
+    protected int ALARM_INTERACTION_COUNT;
     protected bool alarmInteractionClear = false;
     protected int alarmInteractionDifficulty = 1;
+    protected Coroutine touchReaction;
+
 
     void Start()
     {
+        touchManager = gameObject.GetComponentInParent<CharacterTouchManager>();
+
         if (animator == null)
             animator = GetComponent<Animator>();
         if (audioSource == null)
@@ -55,6 +61,7 @@ public class Character : MonoBehaviour
     IEnumerator AlarmSequence()
     {
         status = CharacterStatus.PrepareToWakingUp;
+        string alarmInteraction = SelectAlarmInteraction();
         alarmInteractionDifficulty = 1;
         while (true)
         {
@@ -85,12 +92,9 @@ public class Character : MonoBehaviour
                 // 타이머 설정
                 status = CharacterStatus.AlarmInteraction;
                 float lastTouchStartTime = Time.time;
-                CharacterTouchManager touchManager = gameObject.GetComponentInParent<CharacterTouchManager>();
 
                 // 기상 미션 제시
-                Coroutine interactionCoroutine = null;
-                string alarmInteraction = SelectAlarmInteraction();
-                interactionCoroutine = StartCoroutine(alarmInteraction, alarmInteractionDifficulty);
+                Coroutine interactionCoroutine = StartCoroutine(alarmInteraction, alarmInteractionDifficulty);
                 alarmInteractionClear = false;
 
                 // 기상미션 하는 동안 대기
@@ -183,6 +187,30 @@ public class Character : MonoBehaviour
     protected virtual void ClearProps()
     {
         Prop.ClearAllProps();
+    }
+
+    void Update()
+    {
+        if (GameManager.instance.appMode == Situation.NormalSituation)
+        {
+            if(touchManager.touchPhase == TouchPhase.Began && touchReaction == null)
+            {
+                var clips = animator.GetCurrentAnimatorClipInfo(0);
+                foreach(var clipInfo in clips)
+                {
+                    if (clipInfo.clip.name == "idle")
+                        return;
+                }
+                touchReaction = StartCoroutine(TouchReaction());
+            }
+        }
+    }
+
+    protected virtual IEnumerator TouchReaction()
+    {
+        Debug.Log("touchReaction is now null");
+        touchReaction = null;
+        yield return 0;
     }
 
     public void SetAnimationTrigger(string triggerName)
