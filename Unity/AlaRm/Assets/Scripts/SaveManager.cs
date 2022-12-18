@@ -9,6 +9,7 @@ using UnityEngine.Android;
 {
     public List<AlarmData> alarms;
     public int characterCode;
+    public string loginToken;
 }
 
 public class SaveManager : MonoBehaviour

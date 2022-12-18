@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 100086791}
   - component: {fileID: 100086793}
   - component: {fileID: 100086792}
+  - component: {fileID: 100086794}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -169,11 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e81bcf45e1c45a41a0aa895a374dfbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebug: 1
-  appMode: 0
+  isDebug: 0
+  appMode: 1
   characterPrefabs:
   - {fileID: 7195412456842962347, guid: b81f5b6d26501414eb2e392c4c8f8f8a, type: 3}
-  characterToSpawn: {fileID: 0}
   nowLoadingUI: {fileID: 1569764086}
   NoDestroyList:
   - {fileID: 1491202660}
@@ -193,6 +193,7 @@ MonoBehaviour:
   saveData:
     alarms: []
     characterCode: 0
+    loginToken: 
 --- !u!114 &100086793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +206,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d1ba8515b98464a8229798ea75eef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &100086794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100086788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ddf7b437dba894ea6c055057003f97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  token: 
 --- !u!1 &164772572
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,7 +924,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: -10
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &1569764090
 RectTransform:

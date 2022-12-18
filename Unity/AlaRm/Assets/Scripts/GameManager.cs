@@ -159,7 +159,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("InitMainScene");
         GameObject spawned = SpawnCharacter();
         spawned.SetActive(false);
-        EditorApplication.isPaused = true; // 디버깅용
         yield return new WaitForSeconds(1f);  // 앱 부팅 연출 시간 최소 1초
         spawned.SetActive(true);
         Destroy(nowLoadingUI);

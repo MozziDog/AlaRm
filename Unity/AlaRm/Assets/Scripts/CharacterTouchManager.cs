@@ -37,7 +37,7 @@ public class CharacterTouchManager : MonoBehaviour
             {
                 Vector2 screenPoint = theTouch.position;
                 Ray ray = Camera.main.ScreenPointToRay(screenPoint);
-                LayerMask layerMask = LayerMask.GetMask("Touchable");
+                LayerMask layerMask = LayerMask.GetMask("Touchable", "UI");
                 RaycastHit hit = new RaycastHit();
                 if (Physics.Raycast(ray, out hit, float.MaxValue, layerMask) && hit.collider.tag.CompareTo("Character") == 0)
                 {
