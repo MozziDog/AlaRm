@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Claims;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -24,7 +25,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] // TODO: 개발 완료되면 readonly로 수정할 것. 
     public Situation appMode = Situation.AlarmSituation;
-    [SerializeField] GameObject characterToSpawn; // 개발용. 일단 임시로 스폰할 캐릭터를 인스펙터에서 명시
+    [SerializeField] GameObject[] characterPrefabs;
+    [SerializeField] GameObject nowLoadingUI;
 
     [SerializeField] List<GameObject> NoDestroyList = new List<GameObject>();
 
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         DontDestroyOnLoad(gameObject);
-        foreach(var obj in NoDestroyList)
+        foreach (var obj in NoDestroyList)
             DontDestroyOnLoad(obj);
 
         // 세이브데이터 로드
@@ -122,18 +124,60 @@ public class GameManager : MonoBehaviour
             Debug.Log("Alarm Repeat not set because it doen't needed");
     }
 
+    private GameObject getCharacterToSpawn()
+    {
+        Debug.Assert(SaveManager.instance.saveData.characterCode < characterPrefabs.Length, "Character code in savedata is out of range!!!");
+        return characterPrefabs[SaveManager.instance.saveData.characterCode];
+    }
+
     IEnumerator startMainScene()
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync("MainScene");
         operation.allowSceneActivation = false;
-        yield return new WaitForSeconds(1.5f);  // 앱 부팅 연출 시간 최소 1.5초
         while(operation.progress < 0.9f)
         {
             Debug.Log(string.Format("loading Main scene : {0}%", operation.progress));
             yield return 0;
         }
         Debug.Log("Load Main scene almost Complete!!");
+
+        SceneManager.activeSceneChanged += ChangedActiveScene;  // 씬 전환시 코루틴 끊어지는 문제로 인해 나머지는 ChangedActiveScene에서 이어서 실행.
+
         operation.allowSceneActivation = true;
+    }
+
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        if (next.name != "MainScene")
+            return;
+
+        StartCoroutine(InitMainScene());
+    }
+
+    IEnumerator InitMainScene()
+    {
+        Debug.Log("InitMainScene");
+        GameObject spawned = SpawnCharacter();
+        spawned.SetActive(false);
+        EditorApplication.isPaused = true; // 디버깅용
+        yield return new WaitForSeconds(1f);  // 앱 부팅 연출 시간 최소 1초
+        spawned.SetActive(true);
+        Destroy(nowLoadingUI);
+    }
+
+    private GameObject SpawnCharacter()
+    {
+        Transform spawnPoint = GameObject.FindGameObjectWithTag("Character").transform;
+        Debug.Assert(spawnPoint != null, "Cannot find Character SpawnPoint!");
+        if(spawnPoint.childCount > 0)   // 기존에 스폰된 캐릭터 있다면 정리
+        {
+            for(int i=0; i<spawnPoint.childCount; i++)
+            {
+                Destroy(spawnPoint.GetChild(i).gameObject);
+            }
+        }
+        character = Instantiate(getCharacterToSpawn(), spawnPoint);
+        return character;
     }
 
     public void OnFinishedAlarmSequence()
