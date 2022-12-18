@@ -48,7 +48,7 @@ public class LightEstimation : MonoBehaviour
         // 평균 밝기
         if (args.lightEstimation.averageBrightness.HasValue)
         {
-            light.intensity = args.lightEstimation.averageBrightness.Value;
+            light.intensity = args.lightEstimation.averageBrightness.Value * 1.4f; // 좀 더 밝게 보정
             lightIntensity = args.lightEstimation.averageBrightness.Value;
         }
 
