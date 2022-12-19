@@ -11,6 +11,7 @@ using UnityEngine.Android;
     public int characterCode;
     public bool[] characterOwn;
     public string loginToken;
+    public int coin;
 }
 
 public class SaveManager : MonoBehaviour
@@ -43,6 +44,7 @@ public class SaveManager : MonoBehaviour
         saveData.characterCode = 0;
         saveData.characterOwn = new bool[] { true, false };
         saveData.loginToken = "";
+        saveData.coin = 200;
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("Savedata not exist : Creating new one...");

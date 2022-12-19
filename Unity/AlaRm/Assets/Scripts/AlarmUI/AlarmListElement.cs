@@ -40,10 +40,10 @@ public class AlarmListElement : MonoBehaviour
     private void GetUIColorData()
     {
         // TODO: 여기를 수정해서 컬러 테마 바꾸는 기능 만들기
-        fontColor_active              = Color.white;
-        fontColor_unactive            = new Color(.6f, .6f, .6f, 1);
-        fontColor_selected            = new Color(.6f, .6f, 1, 1);
-        fontColor_selected_unactive   = new Color(.45f, .45f, .6f, 1);
+        fontColor_active              = new Color(0x0d / 256f, 0xD9 / 256f, 0x65 / 256f);
+        fontColor_unactive            = new Color(0x32 / 256f, 0x32 / 256f, 0x32 / 256f);
+        fontColor_selected            = new Color(0x13 / 256f, 0x74 / 256f, 0xf2 / 256f);
+        fontColor_selected_unactive   = new Color(.5f, .5f, .5f, 1);
     }
 
     private void UpdateAlarmListElementDisplay()
@@ -60,12 +60,12 @@ public class AlarmListElement : MonoBehaviour
         // 폰트 컬러 설정
         if (_alarmData.active)
         {
-            text_Title.color = fontColor_active;
-            text_ampm.color = fontColor_active;
-            text_time.color = fontColor_active;
+            text_Title.color = fontColor_selected;
+            text_ampm.color = fontColor_selected;
+            text_time.color = fontColor_selected;
             for(int i=0; i<7; i++)
             {
-                repeatDayInWeek[i].color = _alarmData.repeatDayInWeek[i] == true ? fontColor_selected : fontColor_active;
+                repeatDayInWeek[i].color = _alarmData.repeatDayInWeek[i] == true ? fontColor_selected : fontColor_selected_unactive;
             }
         }
         else

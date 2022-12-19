@@ -117,11 +117,13 @@ public class WebRequestManager : MonoBehaviour
 
                     Debug.Log("받아온 토큰: " + token);
                     AndroidPluginLoader.Instance.ShowToast("로그인 성공!");
+                    APICalling = false;
                     callbackSuccess.Invoke();
                     ClearCallback();
                 }
                 else
                 {
+                    APICalling = false;
                     callbackFailure.Invoke();
                     ClearCallback();
                     Debug.LogWarning("로그인 실패: " + request.responseCode);
@@ -129,7 +131,7 @@ public class WebRequestManager : MonoBehaviour
             }
         }
 
-        APICalling = false;
+        
     }
 
     /// <summary>
@@ -230,7 +232,9 @@ public class WebRequestManager : MonoBehaviour
         APICalling = false;
     }
 
-    public  IEnumerator API_character_own()
+    struct charId { public int characterId; }
+
+    public  IEnumerator API_characterList()
     {
         if (!CheckAPISingleton())
         {
@@ -253,15 +257,52 @@ public class WebRequestManager : MonoBehaviour
                 if (request.responseCode == 200)
                 {
                     // TODO: 캐릭터 보유값 받아온 거 어떻게 전달하기
+                    List<charId> characters = JsonUtility.FromJson<List<charId>>(request.downloadHandler.text);
+                    for(int i=0; i<SaveManager.instance.saveData.characterOwn.Length; i++)
+                    {
+                        SaveManager.instance.saveData.characterOwn[i] = false;
+                    }
+                    for(int i=0; i<characters.Count; i++)
+                    {
+                        SaveManager.instance.saveData.characterOwn[characters[i].characterId] = true;
+                    }
                     Debug.Log("캐릭터 보유 정보: "+request.downloadHandler.text);
                 }
                 else
                 {
+                    callbackFailure.Invoke();
                     ClearCallback();
                     Debug.LogWarning("캐릭터 보유 정보 가져오기 실패: " + request.responseCode);
+                    yield break;
                 }
             }
         }
+        using (request = UnityWebRequest.Get(GetApiPath(url, "user/coin")))
+        {
+            request.SetRequestHeader("token", token);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.ConnectionError)
+            {
+                Debug.Log(request.error);
+                Debug.Log(request.uri);
+            }
+            else
+            {
+                if (request.responseCode == 200)
+                {
+                    SaveManager.instance.saveData.coin = int.Parse(request.downloadHandler.text);
+                    callbackSuccess.Invoke();
+                    Debug.Log("코인 보유량 받아오기 성공: " + request.downloadHandler.text);
+                }
+                else
+                {
+                    callbackFailure.Invoke();
+                    Debug.LogWarning("코인 보유량 받아오기 실패: " + request.responseCode);
+                }
+            }
+        }
+        ClearCallback();
         APICalling = false;
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CharListUI : MonoBehaviour
@@ -8,6 +9,7 @@ public class CharListUI : MonoBehaviour
     [SerializeField] GameObject loginUI;
     List<GameObject> charListElement;
     [SerializeField] Transform charListHolder;
+    [SerializeField] TMP_Text text_coin;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +28,13 @@ public class CharListUI : MonoBehaviour
     {
         WebRequestManager.instance.callbackSuccess += OnRefreshSuccess;
         WebRequestManager.instance.callbackFailure += OnRefreshFailure;
-        StartCoroutine(WebRequestManager.instance.API_character_own());
+        StartCoroutine(WebRequestManager.instance.API_characterList());
         // TODO: 여기에 로딩 연출 만들기
     }
 
     public void OnRefreshSuccess()
     {
+        text_coin.text = SaveManager.instance.saveData.coin.ToString();
         for(int i=0; i<charListHolder.childCount; i++)
         {
             charListHolder.GetChild(i).GetComponent<CharListElement>().CheckOwned();
