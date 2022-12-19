@@ -64,6 +64,7 @@ public class CharListElement : MonoBehaviour
     public void OnCharacterChangeSuccess()
     {
         SaveManager.instance.saveData.characterCode = this.charCode;
+        SaveManager.instance.Save();
         GameManager.instance.SpawnCharacter();
         AndroidPluginLoader.Instance.ShowToast("캐릭터 교체");
     }

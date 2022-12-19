@@ -10,7 +10,7 @@ public class Character00 : Character
     [SerializeField] private GameObject ToothbrushPrefab;
     public Character00()
     {
-        ALARM_INTERACTION_COUNT = 2;
+        ALARM_INTERACTION_COUNT = 3;
     }
 
     // Alarm Interaction #0 비누방울

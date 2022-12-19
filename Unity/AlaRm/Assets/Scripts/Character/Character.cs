@@ -104,9 +104,13 @@ public class Character : MonoBehaviour
                     {
                         break;
                     }
-                    if (touchManager.touchPhase == TouchPhase.Began || touchManager.touchPhase == TouchPhase.Moved)
+                    if (Input.touchCount > 0)
                     {
-                        lastTouchStartTime = Time.time;
+                        TouchPhase nowTouch = Input.GetTouch(0).phase;
+                        if (nowTouch == TouchPhase.Began || nowTouch == TouchPhase.Moved)
+                        {
+                            lastTouchStartTime = Time.time;
+                        }
                     }
                     // 사용자가 다시 잠든 경우
                     if (Time.time - lastTouchStartTime > backToSleepTimeLimit)
