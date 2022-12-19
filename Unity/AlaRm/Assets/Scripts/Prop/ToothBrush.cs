@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class ToothBrush : Prop
 {
@@ -10,7 +10,13 @@ public class ToothBrush : Prop
     [SerializeField] 
     float offsetDisplay;
 
-    float allowedDistance = 0.3f, reqTime;
+    [SerializeField]
+    Image leftTimeGauge;
+
+    [SerializeField]
+    ParticleSystem particle;
+
+    float allowedDistance = 0.3f, reqTime = 5f;
 
 
     // TODO : 디버깅 완료되면 private로 만들기
@@ -67,14 +73,21 @@ public class ToothBrush : Prop
             // 디버깅용
             offsetDisplay = offset;
 
+            var emission = particle.emission;
             if(offset < allowedDistance)
             {
                 duration += Time.deltaTime;
+                emission.rateOverTime = 5f;
+                leftTimeGauge.fillAmount = duration / reqTime;
 
-                if(duration > 5f)
+                if(duration > reqTime)
                 {
                     DestroySelf();
                 }
+            }
+            else
+            {
+                emission.rateOverTime = 0f;
             }
         }
     }
