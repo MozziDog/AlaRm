@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
         Destroy(nowLoadingUI);
     }
 
-    private GameObject SpawnCharacter()
+    public GameObject SpawnCharacter()
     {
         Transform spawnPoint = GameObject.FindGameObjectWithTag("Character").transform;
         Debug.Assert(spawnPoint != null, "Cannot find Character SpawnPoint!");

@@ -167,14 +167,20 @@ public class WebRequestManager : MonoBehaviour
                 if (request.responseCode == 201)
                 {
                     // TODO: 구매가 효력 발휘하게 만들기
+                    SaveManager.instance.saveData.characterOwn[charCode] = true;
+                    callbackSuccess.Invoke();
+                    ClearCallback();
                     AndroidPluginLoader.Instance.ShowToast("구매 성공!");
                 }
                 else if(request.responseCode == 400)
                 {
-                    ClearCallback(); AndroidPluginLoader.Instance.ShowToast("구매 실패");
+                    callbackFailure.Invoke();
+                    ClearCallback();
+                    AndroidPluginLoader.Instance.ShowToast("구매 실패");
                 }
                 else
                 {
+                    callbackFailure.Invoke();
                     ClearCallback();
                     Debug.LogWarning("캐릭터 구매 실패: " + request.responseCode);
                 }
@@ -191,7 +197,7 @@ public class WebRequestManager : MonoBehaviour
             yield break;
         }
         UnityWebRequest request;
-        using (request = UnityWebRequest.Post(GetApiPath(url, String.Format("change_character/{0:D2}", charCode)), ""))
+        using (request = UnityWebRequest.Post(GetApiPath(url, String.Format("user/change_character/{0:D2}", charCode)), ""))
         {
             request.SetRequestHeader("token", token);
             yield return request.SendWebRequest();
@@ -202,13 +208,14 @@ public class WebRequestManager : MonoBehaviour
             }
             else
             {
-                if (request.responseCode == 201)
+                if (request.responseCode == 200 || request.responseCode == 201)
                 {
-                    // TODO: 캐릭터 교체가 효력 발휘하게 만들기
+                    callbackSuccess.Invoke();
                     Debug.Log("캐릭터 교체 성공");
                 }
                 else if (request.responseCode == 403)
                 {
+                    callbackFailure.Invoke();
                     ClearCallback();
                     Debug.LogWarning("캐릭터 교체 거절됨");
                     AndroidPluginLoader.Instance.ShowToast("잘못된 요청입니다.");

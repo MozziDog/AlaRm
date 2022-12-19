@@ -53,5 +53,6 @@ public class SigninUI : MonoBehaviour
     public void OnClickExitButton()
     {
         windowManager.CloseWindow(gameObject);
+        charListUI.OnClickExitButton();
     }
 }

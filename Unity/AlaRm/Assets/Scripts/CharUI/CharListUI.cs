@@ -7,6 +7,7 @@ public class CharListUI : MonoBehaviour
     UIWindowManager windowManager;
     [SerializeField] GameObject loginUI;
     List<GameObject> charListElement;
+    [SerializeField] Transform charListHolder;
 
     // Start is called before the first frame update
     void Start()
@@ -31,12 +32,16 @@ public class CharListUI : MonoBehaviour
 
     public void OnRefreshSuccess()
     {
-        // TODO: 여기에 로딩 연출 끝내고 element 표시하는 것 구현하기.
+        for(int i=0; i<charListHolder.childCount; i++)
+        {
+            charListHolder.GetChild(i).GetComponent<CharListElement>().CheckOwned();
+        }
     }
 
     public void OnRefreshFailure()
-    { 
-        // TODO: 여기에 refresh 실패 안내 띄우는 코드 작성
+    {
+        AndroidPluginLoader.Instance.ShowToast("정보를 가져오는데 실패했습니다.");
+        Debug.LogWarning("Refesh Charlist Failure");
     }
 
 
@@ -48,6 +53,10 @@ public class CharListUI : MonoBehaviour
         {
             // open login UI
             windowManager.OpenWindow(loginUI);
+        }
+        else
+        {
+            Refresh();
         }
     }
 

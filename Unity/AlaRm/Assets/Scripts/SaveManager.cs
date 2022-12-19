@@ -9,6 +9,7 @@ using UnityEngine.Android;
 {
     public List<AlarmData> alarms;
     public int characterCode;
+    public bool[] characterOwn;
     public string loginToken;
 }
 
@@ -37,15 +38,19 @@ public class SaveManager : MonoBehaviour
 
     public void Load()
     {
+        saveData = new SaveData();
+        saveData.alarms = new List<AlarmData>();
+        saveData.characterCode = 0;
+        saveData.characterOwn = new bool[] { true, false };
+        saveData.loginToken = "";
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("Savedata not exist : Creating new one...");
-            saveData = new SaveData();
-            saveData.alarms = new List<AlarmData>();
             Save();
             return;
         }
         string savejson = File.ReadAllText(savePath);
+        saveData = JsonUtility.FromJson<SaveData>(savejson);
         JsonUtility.FromJsonOverwrite(savejson, saveData);
         Debug.Log("data loaded!\n"+savejson);
     }
