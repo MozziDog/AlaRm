@@ -104,7 +104,7 @@ public class Character : MonoBehaviour
                     {
                         break;
                     }
-                    if (touchManager.touchPhase == TouchPhase.Began)
+                    if (touchManager.touchPhase == TouchPhase.Began || touchManager.touchPhase == TouchPhase.Moved)
                     {
                         lastTouchStartTime = Time.time;
                     }

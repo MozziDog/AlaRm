@@ -36,6 +36,7 @@ public class SigninUI : MonoBehaviour
     {
         Debug.Log("LoginSucess Callback!");
         windowManager.CloseWindow(gameObject);
+        WebRequestManager.instance.ClearCallback();
         charListUI.Refresh();
     }
 

@@ -130,7 +130,6 @@ public class WebRequestManager : MonoBehaviour
                     AndroidPluginLoader.Instance.ShowToast("로그인 성공!");
                     APICalling = false;
                     callbackSuccess.Invoke();
-                    ClearCallback();
                 }
                 else
                 {
@@ -210,7 +209,7 @@ public class WebRequestManager : MonoBehaviour
             yield break;
         }
         UnityWebRequest request;
-        using (request = UnityWebRequest.Post(GetApiPath(url, String.Format("user/change_character/{0:D2}", charCode)), ""))
+        using (request = UnityWebRequest.Post(GetApiPath(url, String.Format("user/change_character/{0:D2}", charCode+1)), ""))
         {
             request.SetRequestHeader("token", token);
             yield return request.SendWebRequest();

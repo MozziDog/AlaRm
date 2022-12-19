@@ -3180,6 +3180,7 @@ Transform:
   - {fileID: 3715574554388179843}
   - {fileID: 8286744872811794280}
   - {fileID: 6624137523989679811}
+  - {fileID: 9057401771903651093}
   m_Father: {fileID: 2984409844596556367}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3554,8 +3555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcd44a04d0308a4c8121349963ecbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugMode: 0
-  Debug_AlarmInteraction: 2
+  DebugMode: 1
+  Debug_AlarmInteraction: 1
   animator: {fileID: 0}
   audioSource: {fileID: 0}
   backToSleepTimeLimit: 10
@@ -4670,6 +4671,37 @@ Transform:
   m_Children:
   - {fileID: 1064876662175414902}
   m_Father: {fileID: 4003261103751308908}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8310602021413706339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9057401771903651093}
+  m_Layer: 0
+  m_Name: Mouth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9057401771903651093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310602021413706339}
+  m_LocalRotation: {x: 0.028231919, y: -0.00000037290715, z: -0.00000040167646, w: 0.9996014}
+  m_LocalPosition: {x: 0, y: 0.000212, z: 0.000618}
+  m_LocalScale: {x: 0.00666667, y: 0.006666669, z: 0.0066666706}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7238117390051574665}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8526089879454404805
