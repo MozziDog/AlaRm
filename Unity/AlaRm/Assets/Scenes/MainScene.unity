@@ -2743,7 +2743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loginUI: {fileID: 3017415055121319285}
   charListHolder: {fileID: 1026053199}
-  text_coin: {fileID: 0}
+  text_coin: {fileID: 685420046}
 --- !u!95 &681042700
 Animator:
   serializedVersion: 4

@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e81bcf45e1c45a41a0aa895a374dfbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDebug: 1
+  isDebug: 0
   appMode: 0
   characterPrefabs:
   - {fileID: 7195412456842962347, guid: b81f5b6d26501414eb2e392c4c8f8f8a, type: 3}

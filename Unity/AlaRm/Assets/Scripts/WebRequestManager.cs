@@ -21,6 +21,17 @@ public class login
     public string password;
 }
 
+public class coinWrapper
+{
+    public int coin;
+}
+
+public class characterlistWrapper
+{
+    public int[] characters;
+}
+
+
 public class WebRequestManager : MonoBehaviour
 {
     public static WebRequestManager instance;
@@ -232,8 +243,6 @@ public class WebRequestManager : MonoBehaviour
         APICalling = false;
     }
 
-    struct charId { public int characterId; }
-
     public  IEnumerator API_characterList()
     {
         if (!CheckAPISingleton())
@@ -256,17 +265,17 @@ public class WebRequestManager : MonoBehaviour
             {
                 if (request.responseCode == 200)
                 {
-                    // TODO: 캐릭터 보유값 받아온 거 어떻게 전달하기
-                    List<charId> characters = JsonUtility.FromJson<List<charId>>(request.downloadHandler.text);
-                    for(int i=0; i<SaveManager.instance.saveData.characterOwn.Length; i++)
+                    Debug.Log("캐릭터 보유 정보: "+request.downloadHandler.text);
+                    characterlistWrapper characters = new characterlistWrapper();
+                    JsonUtility.FromJsonOverwrite(request.downloadHandler.text, characters);
+                    for (int i=0; i<SaveManager.instance.saveData.characterOwn.Length; i++)
                     {
                         SaveManager.instance.saveData.characterOwn[i] = false;
                     }
-                    for(int i=0; i<characters.Count; i++)
+                    for(int i=0; i<characters.characters.Length; i++)
                     {
-                        SaveManager.instance.saveData.characterOwn[characters[i].characterId] = true;
+                        SaveManager.instance.saveData.characterOwn[characters.characters[i] -1] = true;
                     }
-                    Debug.Log("캐릭터 보유 정보: "+request.downloadHandler.text);
                 }
                 else
                 {
@@ -291,9 +300,10 @@ public class WebRequestManager : MonoBehaviour
             {
                 if (request.responseCode == 200)
                 {
-                    SaveManager.instance.saveData.coin = int.Parse(request.downloadHandler.text);
-                    callbackSuccess.Invoke();
                     Debug.Log("코인 보유량 받아오기 성공: " + request.downloadHandler.text);
+                    coinWrapper coinWrp = JsonUtility.FromJson<coinWrapper>(request.downloadHandler.text);
+                    SaveManager.instance.saveData.coin = coinWrp.coin;
+                    callbackSuccess.Invoke();
                 }
                 else
                 {
@@ -302,6 +312,7 @@ public class WebRequestManager : MonoBehaviour
                 }
             }
         }
+        SaveManager.instance.Save();
         ClearCallback();
         APICalling = false;
     }
@@ -370,6 +381,7 @@ public class WebRequestManager : MonoBehaviour
                 }
             }
         }
+        SaveManager.instance.Save();
         APICalling = false;
     }
 
@@ -420,6 +432,7 @@ public class WebRequestManager : MonoBehaviour
         {
             token = null;
             SaveManager.instance.saveData.loginToken = token;
+            SaveManager.instance.Save();
             return 0;
         }
 
@@ -434,6 +447,7 @@ public class WebRequestManager : MonoBehaviour
         */
         token = _input;
         SaveManager.instance.saveData.loginToken = token;
+        SaveManager.instance.Save();
         return 0;
     }
 
